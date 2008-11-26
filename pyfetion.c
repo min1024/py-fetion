@@ -101,7 +101,7 @@ PyObject * pyf_get_msg(PyObject * self, PyObject * args)
 	  Py_RETURN_NONE;
 
 	PyObject * o = fetion_msg_pydict(msg);
-	// free_fetion_msg(msg);
+	fx_destroy_msg(msg);
 	return o;
 }
 
@@ -363,99 +363,75 @@ PyObject * pyf_data_get_PersonalInfo(PyObject * self, PyObject * args)
 	if(info == NULL)
 	  Py_RETURN_NONE;
 	else
-	{
-		PyObject * o = fetion_personal_pydict(info);
-		free_fetion_personal(info);
-		return o;
-	}
+	  return fetion_personal_pydict(info);
 }
 
 /* Get contacts info */
 PyObject * pyf_get_group(PyObject * self, PyObject * args)
 {
 	Fetion_Group * group = NULL;
-	DList * l, * list = (DList*)fx_get_group();
+	DList * list = (DList*)fx_get_group();
 	PyObject * pylist = PyList_New(0);
 	assert(pylist);
 
-	l = list;
 	while(list)
 	{
 		group = (Fetion_Group*)list->data;
 		if(group)
-		{
-			PyList_Append(pylist, fetion_group_pydict(group));
-			free_fetion_group(group);
-		}
+		  PyList_Append(pylist, fetion_group_pydict(group));
 		list = d_list_next(list);
 	}
-	d_list_free(l);
 	return pylist;
 }
 
 PyObject * pyf_get_account(PyObject * self, PyObject * args)
 {
 	Fetion_Account * account = NULL;
-	DList * l, * list = (DList*)fx_get_account();
+	DList * list = (DList*)fx_get_account();
 	PyObject * pylist = PyList_New(0);
 	assert(pylist);
 
-	l = list;
 	while(list)
 	{
 		account = (Fetion_Account*)list->data;
 		if(account)
-		{
-			PyList_Append(pylist, fetion_account_pydict(account));
-			free_fetion_account(account);
-		}
+		  PyList_Append(pylist, fetion_account_pydict(account));
 		list = d_list_next(list);
 	}
-	d_list_free(l);
 	return pylist;
 }
 
 PyObject * pyf_get_blacklist(PyObject * self, PyObject * args)
 {
 	Fetion_Black * black = NULL;
-	DList * l, * list = (DList*)fx_get_blacklist();
+	DList * list = (DList*)fx_get_blacklist();
 	PyObject * pylist = PyList_New(0);
 	assert(pylist);
 
-	l = list;
 	while(list)
 	{
 		black = (Fetion_Black*)list->data;
 		if(black)
-		{
-			PyList_Append(pylist, fetion_black_pydict(black));
-			// free_fetion_black(black);
-		}
+		  PyList_Append(pylist, fetion_black_pydict(black));
 		list = d_list_next(list);
 	}
-	d_list_free(l);
 	return pylist;
 }
 
 PyObject * pyf_get_qun(PyObject * self, PyObject * args)
 {
 	Fetion_Qun * qun = NULL;
-	DList * l, * list = (DList*)fx_get_qun();
+	DList * list = (DList*)fx_get_qun();
 	PyObject * pylist = PyList_New(0);
 	assert(pylist);
 
-	l = list;
 	while(list)
 	{
 		qun = (Fetion_Qun*)list->data;
 		if(qun)
-		{
-			PyList_Append(pylist, fetion_qun_pydict(qun));
-			//free_fetion_qun(qun);
-		}
+		  PyList_Append(pylist, fetion_qun_pydict(qun));
 		list = d_list_next(list);
 	}
-	d_list_free(l);
 	return pylist;
 }
 
@@ -470,10 +446,7 @@ PyObject * pyf_get_account_by_id(PyObject * self, PyObject * args)
 	if(account == NULL)
 	  Py_RETURN_NONE;
 
-	PyObject * o = fetion_account_pydict(account);
-	free_fetion_account(account);
-	
-	return o;
+	return fetion_account_pydict(account);
 }
 
 PyObject * pyf_get_qun_by_id(PyObject * self, PyObject * args)
@@ -482,13 +455,9 @@ PyObject * pyf_get_qun_by_id(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "k", &id))
 	  return NULL;
-
 	Fetion_Qun * qun = (Fetion_Qun*)fx_get_qun_by_id(id);
 
-	PyObject * pydict = fetion_qun_pydict(qun);
-	//free_fetion_qun(qun);
-
-	return pydict;
+	return fetion_qun_pydict(qun);
 }
 
 PyObject * pyf_is_qun_by_id(PyObject * self, PyObject * args)
@@ -526,7 +495,7 @@ PyObject * pyf_is_pc_user_by_account(PyObject * self, PyObject * args)
 
 	Fetion_Account * pfa = pydict_fetion_account(account);
 	BOOL b = fx_is_pc_user_by_account(pfa);
-	free_fetion_account(pfa);
+	free(pfa);
 	if(b)
 	  Py_RETURN_TRUE;
 	else
@@ -555,7 +524,7 @@ PyObject * pyf_is_authed_by_account(PyObject * self, PyObject * args)
 
 	Fetion_Account * pfa = pydict_fetion_account(account);
 	int i = fx_is_authed_by_account(pfa);
-	free_fetion_account(pfa);
+	free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -582,7 +551,7 @@ PyObject * pyf_is_InBlacklist_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(dict);
 	BOOL b = fx_is_InBlacklist_by_account(pfa);
-	free_fetion_account(pfa);
+	free(pfa);
 	if(b)
 	  Py_RETURN_TRUE;
 	else
@@ -612,7 +581,7 @@ PyObject * pyf_move_group_buddy(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	i = fx_move_group_buddy(pfa, group_id, NULL, NULL);
-	free_fetion_account(pfa);
+	free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -639,7 +608,7 @@ PyObject * pyf_is_on_line_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	BOOL b = fx_is_on_line_by_account(pfa);
-	free_fetion_account(pfa);
+	free(pfa);
 	if(b)
 	  Py_RETURN_TRUE;
 	else
@@ -669,7 +638,7 @@ PyObject * pyf_get_online_status_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	status = fx_get_online_status_by_account(pfa);
-	free_fetion_account(pfa);
+	free(pfa);
 
 	return Py_BuildValue("s", status_int_str(status));
 }
@@ -684,7 +653,7 @@ PyObject * pyf_get_refuse_sms_day(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	int i = fx_get_refuse_sms_day(pfa);
-	free_fetion_account(pfa);
+	free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -725,7 +694,7 @@ PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args)
 	else
 	  b = FALSE;
 	s = fx_get_account_show_name(pfa, b);
-	free_fetion_account(pfa);
+	free(pfa);
 
 	return Py_BuildValue("s", s);
 }
