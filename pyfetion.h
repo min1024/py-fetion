@@ -176,6 +176,7 @@ void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *a
 /* callback object */
 static PyObject * login_cb = NULL;
 static PyObject * system_msg_cb = NULL;
+static PyObject * sys_msg_cb_args = NULL;
 
 static PyMethodDef pyfetionMethods[] =
 {
