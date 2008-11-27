@@ -2244,6 +2244,51 @@ void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *a
 	case FX_DIA_UNKOWN_ERROR:
 		s = "dia_unkown_error";
 		break;
+	case FX_STATUS_UNSET:
+		s = "status_unset";
+		break;
+	case FX_STATUS_ONLINE:
+		s = "status_online";
+		break;
+	case FX_STATUS_BUSY:
+		s = "status_busy";
+		break;
+	case FX_STATUS_OFFLINE:
+		s = "status_offline";
+		break;
+	case FX_STATUS_AWAY:
+		s = "status_away";
+		break;
+	case FX_STATUS_MEETING:
+		s = "status_meeting";
+		break;
+	case FX_STATUS_PHONE:
+		s = "status_phone";
+		break;
+	case FX_STATUS_DINNER:
+		s = "status_dinnner";
+		break;
+	case FX_STATUS_EXTENDED_AWAY:
+		s = "status_extended_away";
+		break;
+	case FX_STATUS_NUM_PRIMITIVES:
+		s = "status_num_primitives";
+		break;
+	case FX_STATUS_WAITING_AUTH:
+		s = "status_waiting_auth";
+		break;
+	case FX_STATUS_REFUSE:
+		s = "status_refuse";
+		break;
+	case FX_STATUS_BLACK:
+		s = "status_black";
+		break;
+	case FX_STATUS_MOBILE:
+		s = "status_mobile";
+		break;
+	case FX_STATUS_SMSEXTENED:
+		s = "status_smsextened";
+		break;
 	case FX_ACCOUNT_UPDATA_OK:
 		s = "account_updata_ok";
 		break;
