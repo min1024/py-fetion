@@ -174,8 +174,8 @@ void login_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args);
 void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args);
 
 /* callback object */
-PyObject * login_cb = NULL;
-PyObject * system_msg_cb = NULL;
+static PyObject * login_cb = NULL;
+static PyObject * system_msg_cb = NULL;
 
 static PyMethodDef pyfetionMethods[] =
 {

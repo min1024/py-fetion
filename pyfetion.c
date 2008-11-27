@@ -63,6 +63,9 @@ PyObject * pyf_login(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "ssOO", &uid, &pwd, &login_cb, &fargs))
 	  return NULL;
+	if(!PyCallable_Check(login_cb)) return NULL;
+	Py_XINCREF(login_cb);
+
 	if(fx_login(uid, pwd, login_callback_func, fargs))
 	  Py_RETURN_TRUE;
 	else
@@ -83,6 +86,9 @@ PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "OO", &system_msg_cb, &fargs))
 	  return NULL;
+	if(!PyCallable_Check(system_msg_cb)) return NULL;
+	Py_XINCREF(system_msg_cb);
+
 	fx_set_system_msg_cb(system_msg_callback_func, fargs);
 
 	Py_RETURN_NONE;
@@ -1520,6 +1526,8 @@ Fetion_BList * pydict_fetion_blist(PyObject * dict)
 		}
 		blist->group = list;
 	}
+	else
+	  blist->group = NULL;
 
 	obj = PyDict_GetItemString(dict, "account");
 	s = PyList_Size(obj);
@@ -1533,6 +1541,8 @@ Fetion_BList * pydict_fetion_blist(PyObject * dict)
 		}
 		blist->account = list;
 	}
+	else
+	  blist->account = NULL;
 
 	obj = PyDict_GetItemString(dict, "blacklist");
 	s = PyList_Size(obj);
@@ -1546,6 +1556,8 @@ Fetion_BList * pydict_fetion_blist(PyObject * dict)
 		}
 		blist->blacklist = list;
 	}
+	else
+	  blist->blacklist = NULL;
 
 	obj = PyDict_GetItemString(dict, "qun");
 	s = PyList_Size(obj);
@@ -1559,6 +1571,7 @@ Fetion_BList * pydict_fetion_blist(PyObject * dict)
 		}
 		blist->qun = list;
 	}
+	blist->qun = NULL;
 
 	return blist;
 }
@@ -1720,7 +1733,57 @@ PyObject * fetion_quninfo_pydict(const Fetion_QunInfo * quninfo)
 
 Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict)
 {
-	return 0;
+	if(!PyDict_Check(dict)) return NULL;
+
+	Fetion_QunInfo * pqi = fetion_quninfo_malloc();
+	if(!pqi) return NULL;
+
+	PyObject * obj = PyDict_GetItemString(dict, "uri");
+	pqi->uri = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "group_attributes_version");
+	pqi->group_attributes_version = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "name");
+	pqi->name = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "category");
+	pqi->category = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "introduce");
+	pqi->introduce = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "bulletin");
+	pqi->bulletin = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "portrait_crc");
+	pqi->portrait_crc = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "searchable");
+	pqi->searchable = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "current_member_count");
+	pqi->current_member_count = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "limit_member_count");
+	pqi->limit_member_count = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "group_activity");
+	pqi->group_activity = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "QunMember");
+	if(PyList_Check(obj))
+	{
+		DList * list = d_list_alloc();
+		Py_ssize_t i, s = PyList_Size(obj);
+		for(i=0; i<s; i++)
+		  d_list_append(list, pydict_fetion_qunmember(PyList_GetItem(obj, i)));
+		pqi->QunMember = list;
+	}
+	else
+	  pqi->QunMember = NULL;
+
+	return pqi;
 }
 
 Fetion_QunInfo * fetion_quninfo_malloc(void)
@@ -1748,12 +1811,51 @@ void fetion_quninfo_free(Fetion_QunInfo * quninfo)
 /* Fetion_QunMember */
 PyObject * fetion_qunmember_pydict(const Fetion_QunMember * qunmember)
 {
-	return 0;
+	if(!qunmember) return NULL;
+
+	PyObject * pdqm = PyDict_New();
+	assert(pdqm);
+
+	PyDict_SetItemString(pdqm, "uri", Py_BuildValue("s", qunmember->uri));
+	PyDict_SetItemString(pdqm, "id", Py_BuildValue("k", qunmember->id));
+	PyDict_SetItemString(pdqm, "nickname", Py_BuildValue("s", qunmember->nickname));
+	PyDict_SetItemString(pdqm, "iicnickname", Py_BuildValue("s", qunmember->iicnickname));
+	PyDict_SetItemString(pdqm, "identity", Py_BuildValue("i", qunmember->identity));
+	PyDict_SetItemString(pdqm, "state", Py_BuildValue("i", qunmember->state));
+	PyDict_SetItemString(pdqm, "client_type", Py_BuildValue("s", qunmember->client_type));
+
+	return pdqm;
 }
 
 Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict)
 {
-	return 0;
+	if(!PyDict_Check(dict)) return NULL;
+
+	Fetion_QunMember * pqm = fetion_qunmember_malloc();
+	if(!pqm) return NULL;
+
+	PyObject * obj = PyDict_GetItemString(dict, "uri");
+	pqm->uri = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "id");
+	pqm->id = PyLong_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "nickname");
+	pqm->nickname = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "iicnickname");
+	pqm->iicnickname = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "identity");
+	pqm->identity = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "state");
+	pqm->state = (int)PyInt_AsLong(obj);
+
+	obj = PyDict_GetItemString(dict, "client_type");
+	pqm->client_type = PyString_AsString(obj);
+
+	return pqm;
 }
 
 Fetion_QunMember * fetion_qunmember_malloc(void)
@@ -1866,11 +1968,13 @@ const char * status_int_str(int status)
 /* callback functions */
 void login_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args)
 {
-	printf("login callback ... \n");
+	printf("login cb func\n");
+	printf("message : %d\n", message);
 }
 
 void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args)
 {
-	printf("system msg callback ... \n");
+	printf("system msg cb func\n");
+	printf("message : %d\n", message);
 }
 
