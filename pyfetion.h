@@ -145,6 +145,10 @@ Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict);
 PyObject * fetion_qunmember_pydict(const Fetion_QunMember * qunmember);
 Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict);
 
+/* PROXY_ITEM */
+PyObject * proxy_item_pydict(const PROXY_ITEM * proxy_item);
+PROXY_ITEM * pydict_proxy_item(PyObject * dict);
+
 /* status */
 int status_str_int(const char * status);
 const char * status_int_str(int status);
