@@ -2098,17 +2098,14 @@ void login_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args)
 	PyGILState_STATE gstate = PyGILState_Ensure();
 
 	/* call login python callback function */
-	PyObject_CallObject(login_cb, Py_BuildValue("(sO)", s, args));
+	PyObject_CallFunction(login_cb, (char*)"(sO)", s, args);
 
 	PyGILState_Release(gstate);
 }
 
 void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args)
 {
-	PyObject * arglist = NULL;
 	const char * s = NULL;
-	unsigned int i = 0;
-	long w = 0;
 
 	if(!system_msg_cb) return;
 
@@ -2313,12 +2310,8 @@ void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *a
 
 	PyGILState_STATE gstate = PyGILState_Ensure();
 	
-	i = (unsigned int)wParam;
-	w = (long)lParam;
-	arglist = Py_BuildValue("(sIkO)", s, i, w, args);
-
 	/* call system message python callback function */
-	PyObject_CallObject(system_msg_cb, arglist);
+	PyObject_CallFunction(system_msg_cb, (char*)"(sIkO)", s, (unsigned int)wParam, (unsigned long)lParam, args);
 
 	PyGILState_Release(gstate);
 
