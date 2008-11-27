@@ -2229,9 +2229,9 @@ void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *a
 	case FX_DIA_BG_OK:
 		s = "dia_bg_ok";
 		break;
-//	case FX_DIA_BG_FAIL:
-//		s = "dia_bg_fail";
-//		break;
+	case FX_DIA_BG_FAIL:
+		s = "dia_bg_fail";
+		break;
 	case FX_DIA_SEND_OK:
 		s = "dia_send_ok";
 		break;
@@ -2352,9 +2352,9 @@ void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *a
 	case FX_MOVE_GROUP_OK:
 		s = "move_group_ok";
 		break;
-//	case FX_MOVE_GROUP_FAIL:
-//		s = "move_group_fail";
-//		break;
+	case FX_MOVE_GROUP_FAIL:
+		s = "move_group_fail";
+		break;
 	case FX_RECEIVE_FILE:
 		s = "receive_file";
 		break;
