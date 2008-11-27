@@ -1049,6 +1049,10 @@ void initpyfetion(void)
 {
 	PyObject * pyfetion;
 	pyfetion = Py_InitModule("pyfetion", pyfetionMethods);
+	if(!pyfetion) return;
+
+	/* Initialize the python threads */
+	PyEval_InitThreads();
 }
 
 /* Fetion_Account */
@@ -1871,12 +1875,73 @@ void fetion_qunmember_free(Fetion_QunMember * qunmember)
 /* PROXY_ITEM */
 PyObject * proxy_item_pydict(const PROXY_ITEM * proxy_item)
 {
-	return NULL;
+	if(!proxy_item) return NULL;
+
+	const char * s = NULL;
+	PyObject * dict = PyDict_New();
+
+	PyDict_SetItemString(dict, "host", Py_BuildValue("s", proxy_item->host));
+	PyDict_SetItemString(dict, "port", Py_BuildValue("s", proxy_item->port));
+	PyDict_SetItemString(dict, "name", Py_BuildValue("s", proxy_item->name));
+	PyDict_SetItemString(dict, "pwd", Py_BuildValue("s", proxy_item->pwd));
+
+	switch(proxy_item->type)
+	{
+	case PROXY_DIRECT:
+		s = "direct";
+		break;
+	case PROXY_HTTP:
+		s = "http";
+		break;
+	case PROXY_SOCKS4:
+		s = "socks4";
+		break;
+	case PROXY_SOCKS5:
+		s = "socks5";
+		break;
+	case PROXY_MAX:
+		break;
+	}
+
+	PyDict_SetItemString(dict, "type", Py_BuildValue("s", s));
+
+	return dict;
 }
 
 PROXY_ITEM * pydict_proxy_item(PyObject * dict)
 {
-	return NULL;
+	char * s = NULL;
+
+	if(!PyDict_Check(dict)) return NULL;
+
+	PROXY_ITEM * item = proxy_item_malloc();
+	if(!item) return NULL;
+
+	PyObject * obj = PyDict_GetItemString(dict, "host");
+	item->host = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "port");
+	item->port = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "name");
+	item->name = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "pwd");
+	item->pwd = PyString_AsString(obj);
+
+	obj = PyDict_GetItemString(dict, "type");
+	s = PyString_AsString(obj);
+
+	if(strcmp(s, "direct"))
+	  item->type = PROXY_DIRECT;
+	else if(strcmp(s, "http"))
+	  item->type = PROXY_HTTP;
+	else if(strcmp(s, "socks4"))
+	  item->type = PROXY_SOCKS4;
+	else if(strcmp(s, "socks5"))
+	  item->type = PROXY_SOCKS5;
+
+	return item;
 }
 
 PROXY_ITEM * proxy_item_malloc(void)
@@ -1967,14 +2032,295 @@ const char * status_int_str(int status)
 
 /* callback functions */
 void login_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args)
-{
-	printf("login cb func\n");
-	printf("message : %d\n", message);
+{	
+	const char * s = NULL;
+
+	if(!login_cb) return;
+
+	switch(message)
+	{
+	case FX_LOGIN_CONNECTING:
+		s = "connecting";
+		break;
+	case FX_LOGIN_WAIT_AUTH:
+		s = "wait_auth";
+		break;
+	case FX_LOGIN_AUTH_OK:
+		s = "auth_ok";
+		break;
+	case FX_LOGIN_FAIL:
+		s = "fail";
+		break;
+	case FX_LOGIN_NETWORK_ERROR:
+		s = "network_error";
+		break;
+	case FX_LOGIN_UNKOWN_ERROR:
+		s = "unkown_error";
+		break;
+	case FX_LOGIN_UNKOWN_USR:
+		s = "unkown_usr";
+		break;
+	case FX_LOGIN_GCL_GETTING:
+		s = "gcl_getting";
+		break;
+	case FX_LOGIN_GCL_OK:
+		s = "gcl_ok";
+		break;
+	case FX_LOGIN_GCL_FAIL:
+		s = "gcl_fail";
+		break;
+	case FX_LOGIN_GP_GETTING:
+		s = "gp_getting";
+		break;
+	case FX_LOGIN_GP_OK:
+		s = "gp_ok";
+		break;
+	case FX_LOGIN_GP_FAIL:
+		s = "gp_fail";
+		break;
+	case FX_LOGIN_OK:
+		s = "ok";
+		break;
+	case FX_LOGIN_TIMEOUT:
+		s = "timeout";
+		break;
+	case FX_LOGIN_URI_ERROR:
+		s = "uri_error";
+		break;
+	case FX_LOGIN_SERVER_ERROR:
+		s = "server_error";
+		break;
+	case FX_LOGIN_SERVER_REFUSE:
+		s = "server_refuse";
+		break;
+	}
+
+	PyGILState_STATE gstate = PyGILState_Ensure();
+
+	/* call login python callback function */
+	PyObject_CallObject(login_cb, Py_BuildValue("(sO)", s, args));
+
+	PyGILState_Release(gstate);
 }
 
 void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *args)
 {
-	printf("system msg cb func\n");
-	printf("message : %d\n", message);
+	PyObject * arglist = NULL;
+	const char * s = NULL;
+	unsigned int i = 0;
+	long w = 0;
+
+	if(!system_msg_cb) return;
+
+	switch(message)
+	{
+	case FX_NEW_MESSAGE:
+		s = "new_message";
+		break;
+	case FX_NEW_QUN_MESSAGE:
+		s = "new_qun_message";
+		break;
+	case FX_SYS_MESSAGE:
+		s = "sys_message";
+		break;
+	case FX_UNDGE_MESSAGE:
+		s = "undge_message";
+		break;
+	case FX_SMS_OK:
+		s = "sms_ok";
+		break;
+	case FX_SMS_FAIL:
+		s = "sms_fail";
+		break;
+	case FX_SMS_TIMEOUT:
+		s = "sms_timeout";
+		break;
+	case FX_SMS_UNKOWN_ERROR:
+		s = "sms_unkown_error";
+		break;
+	case FX_SMS_FAIL_LIMIT:
+		s = "sms_fail_limit";
+		break;
+	case FX_DIA_BG_TRYING:
+		s = "dia_bg_trying";
+		break;
+	case FX_DIA_BG_OK:
+		s = "dia_bg_ok";
+		break;
+//	case FX_DIA_BG_FAIL:
+//		s = "dia_bg_fail";
+//		break;
+	case FX_DIA_SEND_OK:
+		s = "dia_send_ok";
+		break;
+	case FX_DIA_SEND_FAIL:
+		s = "dia_send_fail";
+		break;
+	case FX_DIA_SEND_TIMEOUT:
+		s = "dia_send_timeout";
+		break;
+	case FX_DIA_UNKOWN_ERROR:
+		s = "dia_unkown_error";
+		break;
+	case FX_ACCOUNT_UPDATA_OK:
+		s = "account_updata_ok";
+		break;
+	case FX_ADD_GROUP_OK:
+		s = "add_group_ok";
+		break;
+	case FX_ADD_GROUP_FAIL:
+		s = "add_group_fail";
+		break;
+	case FX_ADD_GROUP_TIMEOUT:
+		s = "add_group_timeout";
+		break;
+	case FX_DEL_GROUP_OK:
+		s = "del_group_ok";
+		break;
+	case FX_DEL_GROUP_FAIL:
+		s = "del_group_fail";
+		break;
+	case FX_DEL_GROUP_TIMEOUT:
+		s = "del_group_timeout";
+		break;
+	case FX_RENAME_GROUP_OK:
+		s = "rename_group_ok";
+		break;
+	case FX_RENAME_GROUP_FAIL:
+		s = "rename_group_fail";
+		break;
+	case FX_RENAME_GROUP_TIMEOUT:
+		s = "rename_group_timeout";
+		break;
+	case FX_SET_BUDDY_INFO_OK:
+		s = "set_buddy_info_ok";
+		break;
+	case FX_SET_BUDDY_INFO_FAIL:
+		s = "set_buddy_info_fail";
+		break;
+	case FX_SET_BUDDY_INFO_TIMEOUT:
+		s = "set_buddy_info_timeout";
+		break;
+	case FX_ADDACCOUNT_APP:
+		s = "addaccount_app";
+		break;
+	case FX_ADD_BUDDY_OK:
+		s = "add_buddy_ok";
+		break;
+	case FX_SYS_ERR_NETWORK:
+		s = "sys_err_network";
+		break;
+	case FX_SYS_DEREGISTERED:
+		s = "sys_deregistered";
+		break;
+	case FX_SET_STATE_OK:
+		s = "set_state_ok";
+		break;
+	case FX_SET_STATE_FAIL:
+		s = "set_state_fail";
+		break;
+	case FX_SET_STATE_TIMEOUT:
+		s = "set_state_timeout";
+		break;
+	case FX_SET_IMPRESA_OK:
+		s = "set_impresa_ok";
+		break;
+	case FX_SET_IMPRESA_FAIL:
+		s = "set_impresa_fail";
+		break;
+	case FX_SET_NICKNAME_OK:
+		s = "set_nickname_ok";
+		break;
+	case FX_SET_NICKNAME_FAIL:
+		s = "set_nickname_fail";
+		break;
+	case FX_SET_REFUSE_SMS_DAY_OK:
+		s = "set_refuse_sms_day_ok";
+		break;
+	case FX_SET_REFUSE_SMS_DAY_FAIL:
+		s = "set_refuse_sms_day_fail";
+		break;
+	case FX_ADD_BLACKLIST_OK:
+		s = "add_blacklist_ok";
+		break;
+	case FX_ADD_BLACKLIST_FAIL:
+		s = "add_blacklist_fail";
+		break;
+	case FX_ADD_BLACKLIST_TIMEOUT:
+		s = "add_blacklist_timeout";
+		break;
+	case FX_REMOVE_BLACKLIST_OK:
+		s = "remove_blacklist_ok";
+		break;
+	case FX_REMOVE_BLACKLIST_FAIL:
+		s = "remove_blacklist_fail";
+		break;
+	case FX_REMOVE_BLACKLIST_TIMEOUT:
+		s = "remove_blacklist_timeout";
+		break;
+	case FX_DEL_BUDDY_OK:
+		s = "del_buddy_ok";
+		break;
+	case FX_DEL_BUDDY_FAIL:
+		s = "del_buddy_fail";
+		break;
+	case FX_DEL_BUDDY_TIMEOUT:
+		s = "del_buddy_timeout";
+		break;
+	case FX_MOVE_GROUP_OK:
+		s = "move_group_ok";
+		break;
+//	case FX_MOVE_GROUP_FAIL:
+//		s = "move_group_fail";
+//		break;
+	case FX_RECEIVE_FILE:
+		s = "receive_file";
+		break;
+	case FX_CURRENT_VERSION:
+		s = "current_version";
+		break;
+	case FX_GET_QUNLIST_OK:
+		s = "get_qunlist_ok";
+		break;
+	case FX_GET_QUNLIST_FAIL:
+		s = "get_qunlist_fail";
+		break;
+	case FX_QUN_GP_OK:
+		s = "qun_gp_ok";
+		break;
+	case FX_QUN_SEND_OK:
+		s = "qun_send_ok";
+		break;
+	case FX_QUN_SEND_TIMEOUT:
+		s = "qun_send_timeout";
+		break;
+	case FX_QUN_SEND_FAIL:
+		s = "qun_send_fail";
+		break;
+	case FX_QUN_SMS_OK:
+		s = "qun_sms_ok";
+		break;
+	case FX_QUN_SMS_TIMEOUT:
+		s = "qun_sms_timeout";
+		break;
+	case FX_QUN_SMS_FAIL:
+		s = "qun_sms_fail";
+		break;
+	case FX_QUN_SMS_FAIL_LIMIT:
+		s = "qun_sms_fail_limit";
+		break;
+	}
+
+	PyGILState_STATE gstate = PyGILState_Ensure();
+	
+	i = (unsigned int)wParam;
+	w = (long)lParam;
+	arglist = Py_BuildValue("(sIkO)", s, i, w, args);
+
+	/* call system message python callback function */
+	PyObject_CallObject(system_msg_cb, arglist);
+
+	PyGILState_Release(gstate);
+
 }
 
