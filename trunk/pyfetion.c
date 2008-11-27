@@ -8,6 +8,7 @@
 
 /* Methods */
 /* Fetion Init */
+/* BOOL fx_init(void); */
 PyObject * pyf_init(PyObject * self, PyObject * args)
 {
 	BOOL b = fx_init();
@@ -17,12 +18,14 @@ PyObject * pyf_init(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* void fx_terminate(void); */
 PyObject * pyf_terminate(PyObject * self, PyObject * args)
 {
 	fx_terminate();
 	Py_RETURN_NONE;
 }
 
+/* BOOL fx_close_network(); */
 PyObject * pyf_close_network(PyObject * self, PyObject * args)
 {
 	BOOL b = fx_close_network();
@@ -33,6 +36,7 @@ PyObject * pyf_close_network(PyObject * self, PyObject * args)
 }
 
 /* Login and Out */
+/* BOOL fs_login(const char *, const char *); */
 PyObject * pyf_s_login(PyObject * self, PyObject * args)
 {
 	char * uid, * pwd;
@@ -45,6 +49,7 @@ PyObject * pyf_s_login(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* void fx_set_login_status(int); */
 PyObject * pyf_set_login_status(PyObject * self, PyObject * args)
 {
 	const char * status;
@@ -56,6 +61,7 @@ PyObject * pyf_set_login_status(PyObject * self, PyObject * args)
 	Py_RETURN_NONE;
 }
 
+/* int fx_login(const char *, const char *, EventListener, void *); */
 PyObject * pyf_login(PyObject * self, PyObject * args)
 {
 	char * uid, * pwd;
@@ -72,6 +78,7 @@ PyObject * pyf_login(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* void fx_loginout() */
 PyObject * pyf_loginout(PyObject * self, PyObject * args)
 {
 	fx_loginout();
@@ -80,6 +87,7 @@ PyObject * pyf_loginout(PyObject * self, PyObject * args)
 }
 
 /* Set System Message Callback Functions */
+/* void fx_set_system_msg_cb(EventListener, void *); */
 PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args)
 {
 	if(!PyArg_ParseTuple(args, "OO", &system_msg_cb, &sys_msg_cb_args))
@@ -93,6 +101,7 @@ PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args)
 }
 
 /* Receive message functions */
+/* Fetion_MSG * fx_get_msg(long); */
 PyObject * pyf_get_msg(PyObject * self, PyObject * args)
 {
 	long uid;
@@ -110,6 +119,7 @@ PyObject * pyf_get_msg(PyObject * self, PyObject * args)
 }
 
 /* Send SMS Functions */
+/* BOOL fs_send_sms(const long, const char *); */
 PyObject * pyf_s_send_sms(PyObject * self, PyObject * args)
 {
 	long who;
@@ -123,6 +133,7 @@ PyObject * pyf_s_send_sms(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fs_send_sms_by_mobile_no(const char *, const char *); */
 PyObject * pyf_s_send_sms_by_mobile_no(PyObject * self, PyObject * args)
 {
 	char * mobile, * msg;
@@ -135,6 +146,7 @@ PyObject * pyf_s_send_sms_by_mobile_no(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fs_send_sms_to_self(const char *); */
 PyObject * pyf_s_send_sms_to_self(PyObject * self, PyObject * args)
 {
 	char * msg;
@@ -147,6 +159,7 @@ PyObject * pyf_s_send_sms_to_self(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* int fx_send_sms(const long, const char *, EventListener, void *); */
 PyObject * pyf_send_sms(PyObject * self, PyObject * args)
 {
 	long who;
@@ -157,6 +170,7 @@ PyObject * pyf_send_sms(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", fx_send_sms(who, msg, system_msg_callback_func, sys_msg_cb_args));
 }
 
+/* int fx_send_sms_to_self(const char *, EventListener, void *); */
 PyObject * pyf_send_sms_to_self(PyObject * self, PyObject * args)
 {
 	char * msg;
@@ -166,6 +180,7 @@ PyObject * pyf_send_sms_to_self(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", fx_send_sms_to_self(msg, system_msg_callback_func, sys_msg_cb_args));
 }
 
+/* int fx_send_sms_by_mobile_no(const char *, const char *, EventListener, void *); */
 PyObject * pyf_send_sms_by_mobile_no(PyObject * self, PyObject * args)
 {
 	char * mobile_no;
@@ -176,6 +191,7 @@ PyObject * pyf_send_sms_by_mobile_no(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", fx_send_sms_by_mobile_no(mobile_no, msg, system_msg_callback_func, sys_msg_cb_args));
 }
 
+/* void fx_set_longsms(BOOL) */
 PyObject * pyf_set_longsms(PyObject * self, PyObject * args)
 {
 	PyObject * pb;
@@ -193,6 +209,7 @@ PyObject * pyf_set_longsms(PyObject * self, PyObject * args)
 }
 
 /* Dialog message */
+/* BOOL fs_login_dialog(long); */
 PyObject * pyf_s_begin_dialog(PyObject * self, PyObject * args)
 {
 	long who;
@@ -205,6 +222,7 @@ PyObject * pyf_s_begin_dialog(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fs_dialog_send(long, const char *); */
 PyObject * pyf_s_dialog_send(PyObject * self, PyObject * args)
 {
 	long who;
@@ -218,6 +236,7 @@ PyObject * pyf_s_dialog_send(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* void fs_end_dialog(long); */
 PyObject * pyf_s_end_dialog(PyObject * self, PyObject * args)
 {
 	long who;
@@ -229,6 +248,7 @@ PyObject * pyf_s_end_dialog(PyObject * self, PyObject * args)
 	Py_RETURN_NONE;
 }
 
+/* int fx_begin_dialog(long, EventListenet, void *); */
 PyObject * pyf_begin_dialog(PyObject * self, PyObject * args)
 {
 	long who;
@@ -238,6 +258,7 @@ PyObject * pyf_begin_dialog(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", fx_begin_dialog(who, system_msg_callback_func, sys_msg_cb_args));
 }
 
+/* int fx_dialog_send(long, const char *, EventListener, void *); */
 PyObject * pyf_dialog_send(PyObject * self, PyObject * args)
 {
 	long who;
@@ -248,6 +269,7 @@ PyObject * pyf_dialog_send(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", fx_dialog_send(who, msg, system_msg_callback_func, sys_msg_cb_args));
 }
 
+/* int fx_end_dialog(long); */
 PyObject * pyf_end_dialog(PyObject * self, PyObject * args)
 {
 	long who;
@@ -260,42 +282,49 @@ PyObject * pyf_end_dialog(PyObject * self, PyObject * args)
 }
 
 /* Get or Set User Info */
+/* const char * fx_get_usr_uid(void); */
 PyObject * pyf_get_usr_uid(PyObject * self, PyObject * args)
 {
 	const char * s = fx_get_usr_uid();
 	return Py_BuildValue("s", s);
 }
 
+/* cosnt char * fx_get_usr_passwd(void); */
 PyObject * pyf_get_usr_passwd(PyObject * self, PyObject * args)
 {
 	const char * s = fx_get_usr_passwd();
 	return Py_BuildValue("s", s);
 }
 
+/* const char * fx_get_usr_show_name(void); */
 PyObject * pyf_get_usr_show_name(PyObject * self, PyObject * args)
 {
 	const char * s = fx_get_usr_show_name();
 	return Py_BuildValue("s", s);
 }
 
+/* const char * fx_get_usr_uri(void); */
 PyObject * pyf_get_usr_uri(PyObject * self, PyObject * args)
 {
 	const char * s = fx_get_usr_uri();
 	return Py_BuildValue("s", s);
 }
 
+/* const char * fx_get_usr_mobilenum(void); */
 PyObject * pyf_get_usr_mobilenum(PyObject * self, PyObject * args)
 {
 	const char * s = fx_get_usr_mobilenum();
 	return Py_BuildValue("s", s);
 }
 
+/* int fx_get_usr_score(void); */
 PyObject * pyf_get_usr_score(PyObject * self, PyObject * args)
 {
 	int i = fx_get_usr_score();
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_set_user_state(int, char *, EventListener, void*); */
 PyObject* pyf_set_user_state(PyObject * self, PyObject * args)
 {
 	char * state, * desc;
@@ -306,6 +335,7 @@ PyObject* pyf_set_user_state(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", fx_set_user_state(status_str_int(state), desc, system_msg_callback_func, sys_msg_cb_args));
 }
 
+/* int fx_get_user_state(void); */
 PyObject * pyf_get_user_state(PyObject * self, PyObject * args)
 {
 	int s = fx_get_user_state();
@@ -313,6 +343,7 @@ PyObject * pyf_get_user_state(PyObject * self, PyObject * args)
 	return Py_BuildValue("s", status_int_str(s));
 }
 
+/* int fx_set_user_impresa(const char *, EventListener, void *); */
 PyObject * pyf_set_user_impresa(PyObject * self, PyObject * args)
 {
 	char * s;
@@ -324,6 +355,7 @@ PyObject * pyf_set_user_impresa(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_set_user_nickname(cosnt char *, EventListener, void *); */
 PyObject * pyf_set_user_nickname(PyObject * self, PyObject * args)
 {
 	char * s;
@@ -335,6 +367,7 @@ PyObject * pyf_set_user_nickname(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_get_refuse_sms_day(void); */
 PyObject * pyf_get_user_refuse_sms_day(PyObject * self, PyObject * args)
 {
 	int i = fx_get_user_refuse_sms_day();
@@ -342,6 +375,7 @@ PyObject * pyf_get_user_refuse_sms_day(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_set_refuse_sms_day(int, EventListener, void *); */
 PyObject * pyf_set_user_refuse_sms_day(PyObject * self, PyObject * args)
 {
 	int i, r;
@@ -353,12 +387,14 @@ PyObject * pyf_set_user_refuse_sms_day(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", r);
 }
 
+/* int fx_get_expirestime(void); */
 PyObject * pyf_get_expirestime(PyObject * self, PyObject * args)
 {
 	int s = fx_get_expirestime();
 	return Py_BuildValue("i", s);
 }
 
+/* Fetion_Personal * fx_data_get_PersonalInfo(void); */
 PyObject * pyf_data_get_PersonalInfo(PyObject * self, PyObject * args)
 {
 	Fetion_Personal * info;
@@ -371,6 +407,7 @@ PyObject * pyf_data_get_PersonalInfo(PyObject * self, PyObject * args)
 }
 
 /* Get contacts info */
+/* DList * fx_get_group(); */
 PyObject * pyf_get_group(PyObject * self, PyObject * args)
 {
 	Fetion_Group * group = NULL;
@@ -388,6 +425,7 @@ PyObject * pyf_get_group(PyObject * self, PyObject * args)
 	return pylist;
 }
 
+/* DList * fx_get_account(); */
 PyObject * pyf_get_account(PyObject * self, PyObject * args)
 {
 	Fetion_Account * account = NULL;
@@ -405,6 +443,7 @@ PyObject * pyf_get_account(PyObject * self, PyObject * args)
 	return pylist;
 }
 
+/* DList * fx_get_blacklist(); */
 PyObject * pyf_get_blacklist(PyObject * self, PyObject * args)
 {
 	Fetion_Black * black = NULL;
@@ -422,6 +461,7 @@ PyObject * pyf_get_blacklist(PyObject * self, PyObject * args)
 	return pylist;
 }
 
+/* DList * fx_get_qun(); */
 PyObject * pyf_get_qun(PyObject * self, PyObject * args)
 {
 	Fetion_Qun * qun = NULL;
@@ -439,6 +479,7 @@ PyObject * pyf_get_qun(PyObject * self, PyObject * args)
 	return pylist;
 }
 
+/* Fetion_Account * fx_get_account_by_id(long); */
 PyObject * pyf_get_account_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -453,6 +494,7 @@ PyObject * pyf_get_account_by_id(PyObject * self, PyObject * args)
 	return fetion_account_pydict(account);
 }
 
+/* Fetion_Qun * fx_get_qun_by_id(long); */
 PyObject * pyf_get_qun_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -464,6 +506,7 @@ PyObject * pyf_get_qun_by_id(PyObject * self, PyObject * args)
 	return fetion_qun_pydict(qun);
 }
 
+/* BOOL fx_is_qun_by_id(long); */
 PyObject * pyf_is_qun_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -476,6 +519,7 @@ PyObject * pyf_is_qun_by_id(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fx_is_pc_user_by_id(long); */
 PyObject * pyf_is_pc_user_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -488,6 +532,7 @@ PyObject * pyf_is_pc_user_by_id(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fx_is_pc_user_by_account(const Fetion_Account *); */
 PyObject * pyf_is_pc_user_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * account;
@@ -506,6 +551,7 @@ PyObject * pyf_is_pc_user_by_account(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* int fx_is_authed_by_id(long); */
 PyObject * pyf_is_authed_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -517,6 +563,7 @@ PyObject * pyf_is_authed_by_id(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* BOOL fx_is_authed_by_account(Fetion_Account *); */
 PyObject * pyf_is_authed_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * account;
@@ -533,6 +580,7 @@ PyObject * pyf_is_authed_by_account(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* BOOL fx_is_InBlacklist_by_id(const long); */
 PyObject * pyf_is_InBlacklist_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -545,6 +593,7 @@ PyObject * pyf_is_InBlacklist_by_id(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fx_is_InBlacklist_by_account(cosnt Fetion_Account *); */
 PyObject * pyf_is_InBlacklist_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * dict;
@@ -562,6 +611,7 @@ PyObject * pyf_is_InBlacklist_by_account(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* int fx_move_group_buddy_by_id(long, int, EventListener, void *); */
 PyObject * pyf_move_group_buddy_by_id(PyObject * self, PyObject * args)
 {
 	long uid;
@@ -574,6 +624,7 @@ PyObject * pyf_move_group_buddy_by_id(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_move_group_buddy(const Fetion_Account *, int, EventListener, void *); */
 PyObject * pyf_move_group_buddy(PyObject * self, PyObject * args)
 {
 	int group_id, i;
@@ -590,6 +641,7 @@ PyObject * pyf_move_group_buddy(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* BOOL fx_is_on_line_by_id(long); */
 PyObject * pyf_is_on_line_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -602,6 +654,7 @@ PyObject * pyf_is_on_line_by_id(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fx_is_on_line_by_account(const Fetion_Account *); */
 PyObject * pyf_is_on_line_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -619,6 +672,7 @@ PyObject * pyf_is_on_line_by_account(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* int fx_get_online_status_by_id(const long); */
 PyObject * pyf_get_online_status_by_id(PyObject * self, PyObject * args)
 {
 	long uid;
@@ -631,6 +685,7 @@ PyObject * pyf_get_online_status_by_id(PyObject * self, PyObject * args)
 	return Py_BuildValue("s", status_int_str(status));
 }
 
+/* int fx_get_online_status_by_account(const Fetion_Account *); */
 PyObject * pyf_get_online_status_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -647,6 +702,7 @@ PyObject * pyf_get_online_status_by_account(PyObject * self, PyObject * args)
 	return Py_BuildValue("s", status_int_str(status));
 }
 
+/* int fx_get_refuse_sms_day(const Fetion_Account *); */
 PyObject * pyf_get_refuse_sms_day(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -662,6 +718,7 @@ PyObject * pyf_get_refuse_sms_day(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* void fx_updata_account_info_by_id(long); */
 PyObject * pyf_updata_account_info_by_id(PyObject * self, PyObject * args)
 {
 	long id;
@@ -673,6 +730,7 @@ PyObject * pyf_updata_account_info_by_id(PyObject * self, PyObject * args)
 	Py_RETURN_NONE;
 }
 
+/* void fx_updata_account_info_all(); */
 PyObject * pyf_updata_account_info_all(PyObject * self, PyObject * args)
 {
 	fx_updata_account_info_all();
@@ -680,6 +738,7 @@ PyObject * pyf_updata_account_info_all(PyObject * self, PyObject * args)
 	Py_RETURN_NONE;
 }
 
+/* char * fx_get_account_show_name(cosnt Fetion_Account *, BOOL); */
 PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args)
 {
 	PyObject * pb, * pdfa;
@@ -703,6 +762,7 @@ PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args)
 	return Py_BuildValue("s", s);
 }
 
+/* char * fx_get_qun_shwo_name(Fetion_Qun *); */
 PyObject * pyf_get_qun_show_name(PyObject * self, PyObject * args)
 {
 	PyObject * pdfq;
@@ -717,6 +777,7 @@ PyObject * pyf_get_qun_show_name(PyObject * self, PyObject * args)
 	return Py_BuildValue("s", s);
 }
 
+/* int fx_get_account_group_id(const Fetion_Account *); */
 PyObject * pyf_get_account_group_id(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -732,6 +793,7 @@ PyObject * pyf_get_account_group_id(PyObject * self, PyObject * args)
 }
 
 /* Group Opt Functions */
+/* BOOL fs_rename_buddylist(int, char *); */
 PyObject * pyf_s_rename_buddylist(PyObject * self, PyObject * args)
 {
 	int id;
@@ -745,6 +807,7 @@ PyObject * pyf_s_rename_buddylist(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fs_delete_buddylist(int); */
 PyObject * pyf_s_delete_buddylist(PyObject * self, PyObject * args)
 {
 	int id;
@@ -757,6 +820,7 @@ PyObject * pyf_s_delete_buddylist(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* int fx_rename_buddylist(int, const char *, EventListener, void *); */
 PyObject * pyf_rename_buddylist(PyObject * self, PyObject * args)
 {
 	int id, i;
@@ -768,6 +832,7 @@ PyObject * pyf_rename_buddylist(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_add_buddylist(const char *, EventListener, void *); */
 PyObject * pyf_add_buddylist(PyObject * self, PyObject * args)
 {
 	int i;
@@ -779,6 +844,7 @@ PyObject * pyf_add_buddylist(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_add_buddy_by_uid(const char *, const char *, int, const char *, EventListener, void *); */
 PyObject * pyf_add_buddy_by_uid(PyObject * self, PyObject * args)
 {
 	char * uid, * local_name, *desc;
@@ -791,6 +857,7 @@ PyObject * pyf_add_buddy_by_uid(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_add_buddy_by_mobile(const char *, const char *, int, const char *, EventListener, void *); */
 PyObject * pyf_add_buddy_by_mobile(PyObject * self, PyObject * args)
 {
 	char * mobile, * local_name, *desc;
@@ -803,6 +870,7 @@ PyObject * pyf_add_buddy_by_mobile(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_handleContactRequest(const char *, int, int, const char *); */
 PyObject * pyf_handleContactRequest(PyObject * self, PyObject * args)
 {
 	char * uri, * local_name;
@@ -815,6 +883,7 @@ PyObject * pyf_handleContactRequest(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_delete_buddylist(int, EventListener, void *); */
 PyObject * pyf_delete_buddylist(PyObject * self, PyObject * args)
 {
 	int i, id;
@@ -827,6 +896,7 @@ PyObject * pyf_delete_buddylist(PyObject * self, PyObject * args)
 }
 
 /* Buddy Opt Functions */
+/* BOOL fs_set_buddyinfo(long, const char *); */
 PyObject * pyf_s_set_buddyinfo(PyObject * self, PyObject * args)
 {
 	long uid;
@@ -840,6 +910,7 @@ PyObject * pyf_s_set_buddyinfo(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* int fx_set_buddyinfo(long, const char *, EventListener, void *); */
 PyObject * pyf_set_buddyinfo(PyObject * self, PyObject * args)
 {
 	int i;
@@ -853,6 +924,7 @@ PyObject * pyf_set_buddyinfo(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_delete_buddy_by_id(long, EventListener, void *); */
 PyObject * pyf_delete_buddy_by_id(PyObject * self, PyObject * args)
 {
 	int i;
@@ -865,6 +937,7 @@ PyObject * pyf_delete_buddy_by_id(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_delete_buddy_by_account(Fetion_Account *, EventListener, void *); */
 PyObject * pyf_delete_buddy_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -879,6 +952,7 @@ PyObject * pyf_delete_buddy_by_account(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_addto_blacklist_by_id(const long, EventListener, void *); */
 PyObject * pyf_addto_blacklist_by_id(PyObject * self, PyObject * args)
 {
 	long uid;
@@ -891,6 +965,7 @@ PyObject * pyf_addto_blacklist_by_id(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_addto_blacklist_by_account(Fetio_Account *, EventListener, void *); */
 PyObject * pyf_addto_blacklist_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -905,6 +980,7 @@ PyObject * pyf_addto_blacklist_by_account(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_addto_blacklist_by_uri(const char * uri, EventListener, void *); */
 PyObject * pyf_addto_blacklist_by_uri(PyObject * self, PyObject * args)
 {
 	int i;
@@ -917,6 +993,7 @@ PyObject * pyf_addto_blacklist_by_uri(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_removefrom_blacklist_by_id(const long, EventListener, void *); */
 PyObject * pyf_removefrom_blacklist_by_id(PyObject * self, PyObject * args)
 {
 	int i;
@@ -929,6 +1006,7 @@ PyObject * pyf_removefrom_blacklist_by_id(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* fx_removefrom_blacklist_by_account(Fetion_Account *, EventListener, void *); */
 PyObject * pyf_removefrom_blacklist_by_account(PyObject * self, PyObject * args)
 {
 	PyObject * pdfa;
@@ -943,6 +1021,7 @@ PyObject * pyf_removefrom_blacklist_by_account(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", i);
 }
 
+/* int fx_removefrom_blacklist_by_uri(const char *, EventListener, void *); */
 PyObject * pyf_removefrom_blacklist_by_uri(PyObject * self, PyObject * args)
 {
 	char * uri;
@@ -956,6 +1035,7 @@ PyObject * pyf_removefrom_blacklist_by_uri(PyObject * self, PyObject * args)
 }
 
 /* Extend Functions */
+/* BOOL fx_send_nudge(long); */
 PyObject * pyf_send_nudge(PyObject * self, PyObject * args)
 {
 	long who;
@@ -968,6 +1048,7 @@ PyObject * pyf_send_nudge(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* BOOL fx_set_serve_address(const char *); */
 PyObject * pyf_set_serve_address(PyObject * self, PyObject * args)
 {
 	char * address;
@@ -980,6 +1061,7 @@ PyObject * pyf_set_serve_address(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* void fx_set_unknow_serve_address(void); */
 PyObject * pyf_set_unknow_serve_address(PyObject * self, PyObject * args)
 {
 	fx_set_unknow_serve_address();
@@ -987,6 +1069,7 @@ PyObject * pyf_set_unknow_serve_address(PyObject * self, PyObject * args)
 	Py_RETURN_NONE;
 }
 
+/* char * fx_get_serve_address(void); */
 PyObject * pyf_get_serve_address(PyObject * self, PyObject * args)
 {
 	char * s = fx_get_serve_address();
@@ -994,6 +1077,7 @@ PyObject * pyf_get_serve_address(PyObject * self, PyObject * args)
 	return Py_BuildValue("s", s);
 }
 
+/* BOOL fx_set_proxy(PROXY_ITEM *); */
 PyObject * pyf_set_proxy(PyObject * self, PyObject * args)
 {
 	PyObject * pdpi;
@@ -1011,11 +1095,13 @@ PyObject * pyf_set_proxy(PyObject * self, PyObject * args)
 	  Py_RETURN_FALSE;
 }
 
+/* PROXY_ITEM * fx_get_proxy(); */
 PyObject * pyf_get_proxy(PyObject * self, PyObject * args)
 {
 	return Py_BuildValue("O", proxy_item_pydict(fx_get_proxy()));
 }
 
+/* int fx_test_network(PROXY_ITEM *, EventListener, void *); */
 PyObject * pyf_test_network(PyObject * self, PyObject * args)
 {
 	PyObject * pdpi;
@@ -1031,6 +1117,7 @@ PyObject * pyf_test_network(PyObject * self, PyObject * args)
 }
 
 /* Misc Functions */
+/* char * fx_simple_paser_msg(const char *); */
 PyObject * pyf_simple_paser_msg(PyObject * self, PyObject * args)
 {
 	char * msg, * s;
