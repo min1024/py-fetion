@@ -701,151 +701,341 @@ PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args)
 
 PyObject * pyf_get_qun_show_name(PyObject * self, PyObject * args)
 {
-	return NULL;
+	PyObject * pdfq;
+	char * s;
+
+	if(!PyArg_ParseTuple(args, "O", &pdfq))
+	  return NULL;
+	Fetion_Qun * pfq = (Fetion_Qun*)pydict_fetion_qun(pdfq);
+	s = fx_get_qun_show_name(pfq);
+	free(pfq);
+
+	return Py_BuildValue("s", s);
 }
 
 PyObject * pyf_get_account_group_id(PyObject * self, PyObject * args)
 {
-	return NULL;
+	PyObject * pdfa;
+	int i;
+
+	if(!PyArg_ParseTuple(args, "O", &pdfa))
+	  return NULL;
+	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
+	i = fx_get_account_group_id(pfa);
+	free(pfa);
+
+	return Py_BuildValue("i", i);
 }
 
 /* Group Opt Functions */
 PyObject * pyf_s_rename_buddylist(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int id;
+	char * name;
+
+	if(!PyArg_ParseTuple(args, "is", &id, &name))
+	  return NULL;
+	if(fs_rename_buddylist(id, name))
+	  Py_RETURN_TRUE;
+	else
+	  Py_RETURN_FALSE;
 }
 
 PyObject * pyf_s_delete_buddylist(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int id;
+
+	if(!PyArg_ParseTuple(args, "i", &id))
+	  return NULL;
+	if(fs_delete_buddylist(id))
+	  Py_RETURN_TRUE;
+	else
+	  Py_RETURN_FALSE;
 }
 
 PyObject * pyf_rename_buddylist(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int id, i;
+	char * name;
+
+	if(!PyArg_ParseTuple(args, "is", &id, &name))
+	  return NULL;
+	i = fx_rename_buddylist(id, name, NULL, NULL);
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_add_buddylist(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int i;
+	char * name;
+
+	if(!PyArg_ParseTuple(args, "s", &name))
+	  return NULL;
+	i = fx_add_buddylist(name, NULL, NULL);
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_add_buddy_by_uid(PyObject * self, PyObject * args)
 {
-	return NULL;
+	char * uid, * local_name, *desc;
+	int groupid, i;
+
+	if(!PyArg_ParseTuple(args, "ssis", &uid, &local_name, &groupid, &desc))
+	  return NULL;
+	i = fx_add_buddy_by_uid(uid, local_name, groupid, desc, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_add_buddy_by_mobile(PyObject * self, PyObject * args)
 {
-	return NULL;
+	char * mobile, * local_name, *desc;
+	int groupid, i;
+
+	if(!PyArg_ParseTuple(args, "ssis", &mobile, &local_name, &groupid, &desc))
+	  return NULL;
+	i = fx_add_buddy_by_mobile(mobile, local_name, groupid, desc, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_handleContactRequest(PyObject * self, PyObject * args)
 {
-	return 0;
+	char * uri, * local_name;
+	int i, isPassed, group;
+
+	if(!PyArg_ParseTuple(args, "siis", &uri, &isPassed, &group, &local_name))
+	  return NULL;
+	i = fx_handleContactRequest(uri, isPassed, group, local_name);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_delete_buddylist(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int i, id;
+
+	if(!PyArg_ParseTuple(args, "i", &id))
+	  return NULL;
+	i = fx_delete_buddylist(id, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 /* Buddy Opt Functions */
 PyObject * pyf_s_set_buddyinfo(PyObject * self, PyObject * args)
 {
-	return NULL;
+	long uid;
+	char * localname;
+
+	if(!PyArg_ParseTuple(args, "ks", &uid, &localname))
+	  return NULL;
+	if(fs_set_buddyinfo(uid, localname))
+	  Py_RETURN_TRUE;
+	else
+	  Py_RETURN_FALSE;
 }
 
 PyObject * pyf_set_buddyinfo(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int i;
+	long uid;
+	char * localname;
+
+	if(!PyArg_ParseTuple(args, "ks", &uid, &localname))
+	  return NULL;
+	i = fx_set_buddyinfo(uid, localname, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_delete_buddy_by_id(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int i;
+	long uid;
+
+	if(!PyArg_ParseTuple(args, "k", &uid))
+	  return NULL;
+	i = fx_delete_buddy_by_id(uid, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_delete_buddy_by_account(PyObject * self, PyObject * args)
 {
-	return NULL;
+	PyObject * pdfa;
+	int i;
+
+	if(!PyArg_ParseTuple(args, "O", &pdfa))
+	  return NULL;
+	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
+	i = fx_delete_buddy_by_account(pfa, NULL, NULL);
+	free(pfa);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_addto_blacklist_by_id(PyObject * self, PyObject * args)
 {
-	return NULL;
+	long uid;
+	int i;
+	
+	if(!PyArg_ParseTuple(args, "k", &uid))
+	  return NULL;
+	i = fx_addto_blacklist_by_id(uid, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_addto_blacklist_by_account(PyObject * self, PyObject * args)
 {
-	return NULL;
+	PyObject * pdfa;
+	int i;
+
+	if(!PyArg_ParseTuple(args, "O", &pdfa))
+	  return NULL;
+	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
+	i = fx_addto_blacklist_by_account(pfa, NULL, NULL);
+	free(pfa);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_addto_blacklist_by_uri(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int i;
+	char * uri;
+
+	if(!PyArg_ParseTuple(args, "s", &uri))
+	  return NULL;
+	i = fx_addto_blacklist_by_uri(uri, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_removefrom_blacklist_by_id(PyObject * self, PyObject * args)
 {
-	return NULL;
+	int i;
+	long uid;
+
+	if(!PyArg_ParseTuple(args, "k", &uid))
+	  return NULL;
+	i = fx_removefrom_blacklist_by_id(uid, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_removefrom_blacklist_by_account(PyObject * self, PyObject * args)
 {
-	return NULL;
+	PyObject * pdfa;
+	int i;
+
+	if(!PyArg_ParseTuple(args, "O", &pdfa))
+	  return NULL;
+	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
+	i = fx_removefrom_blacklist_by_account(pfa, NULL, NULL);
+	free(pfa);
+
+	return Py_BuildValue("i", i);
 }
 
 PyObject * pyf_removefrom_blacklist_by_uri(PyObject * self, PyObject * args)
 {
-	return NULL;
+	char * uri;
+	int i;
+
+	if(!PyArg_ParseTuple(args, "s", &uri))
+	  return NULL;
+	i = fx_removefrom_blacklist_by_uri(uri, NULL, NULL);
+
+	return Py_BuildValue("i", i);
 }
 
 /* Extend Functions */
 PyObject * pyf_send_nudge(PyObject * self, PyObject * args)
 {
-	return 0;
+	long who;
+
+	if(!PyArg_ParseTuple(args, "k", &who))
+	  return NULL;
+	if(fx_send_nudge(who))
+	  Py_RETURN_TRUE;
+	else
+	  Py_RETURN_FALSE;
 }
 
 PyObject * pyf_set_serve_address(PyObject * self, PyObject * args)
 {
-	return 0;
+	char * address;
+
+	if(!PyArg_ParseTuple(args, "s", &address))
+	  return NULL;
+	if(fx_set_serve_address(address))
+	  Py_RETURN_TRUE;
+	else
+	  Py_RETURN_FALSE;
 }
 
 PyObject * pyf_set_unknow_serve_address(PyObject * self, PyObject * args)
 {
-	return 0;
+	fx_set_unknow_serve_address();
+
+	Py_RETURN_NONE;
 }
 
 PyObject * pyf_get_serve_address(PyObject * self, PyObject * args)
 {
-	return 0;
+	char * s = fx_get_serve_address();
+
+	return Py_BuildValue("s", s);
 }
 
 PyObject * pyf_set_proxy(PyObject * self, PyObject * args)
 {
-	return NULL;
-}
+	PyObject * pdpi;
+	BOOL b;
 
-PyObject * pyf_set_unknow_proxy(PyObject * self, PyObject * args)
-{
-	return NULL;
+	if(!PyArg_ParseTuple(args, "O", &pdpi))
+	  return NULL;
+	PROXY_ITEM * item = (PROXY_ITEM*)pydict_proxy_item(pdpi);
+	b = fx_set_proxy(item);
+	free(item);
+
+	if(b)
+	  Py_RETURN_TRUE;
+	else
+	  Py_RETURN_FALSE;
 }
 
 PyObject * pyf_get_proxy(PyObject * self, PyObject * args)
 {
-	return NULL;
+	return Py_BuildValue("O", proxy_item_pydict(fx_get_proxy()));
 }
 
 PyObject * pyf_test_network(PyObject * self, PyObject * args)
 {
-	return 0;
+	PyObject * pdpi;
+	int i;
+
+	if(!PyArg_ParseTuple(args, "O", &pdpi))
+	  return NULL;
+	PROXY_ITEM * item = (PROXY_ITEM*)pydict_proxy_item(pdpi);
+	i = fx_test_network(item, NULL, NULL);
+	free(item);
+
+	return Py_BuildValue("i", i);
 }
 
 /* Misc Functions */
 PyObject * pyf_simple_paser_msg(PyObject * self, PyObject * args)
 {
-	return NULL;
+	char * msg, * s;
+
+	if(!PyArg_ParseTuple(args, "s", &msg))
+	  return NULL;
+	s = fx_simple_paser_msg(msg);
+
+	return Py_BuildValue("s", s);
 }
 
 /* init function */
@@ -1338,6 +1528,17 @@ PyObject * fetion_qunmember_pydict(const Fetion_QunMember * qunmember)
 Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict)
 {
 	return 0;
+}
+
+/* PROXY_ITEM */
+PyObject * proxy_item_pydict(const PROXY_ITEM * proxy_item)
+{
+	return NULL;
+}
+
+PROXY_ITEM * pydict_proxy_item(PyObject * dict)
+{
+	return NULL;
 }
 
 /* status */
