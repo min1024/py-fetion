@@ -118,37 +118,53 @@ extern "C" void initpyfetion(void);
 /* Fetion_Account */
 Fetion_Account * pydict_fetion_account(PyObject * dict);
 PyObject * fetion_account_pydict(const Fetion_Account * account);
+Fetion_Account * fetion_account_malloc(void);
+void fetion_account_free(Fetion_Account * account);
 /* Fetion_MSG */
 PyObject * fetion_msg_pydict(const Fetion_MSG * msg);
 Fetion_MSG * pydict_fetion_msg(PyObject * dict);
+Fetion_MSG * fetion_msg_malloc(void);
+void fetion_msg_free(Fetion_MSG * msg);
 /* Fetion_Personal */
 PyObject * fetion_personal_pydict(const Fetion_Personal * personal);
 Fetion_Personal * pydict_fetion_personal(PyObject * dict);
+Fetion_Personal * fetion_personal_malloc(void);
+void fetion_personal_free(Fetion_Personal * personal);
 /* Fetion_Group */
 PyObject * fetion_group_pydict(const Fetion_Group * group);
 Fetion_Group * pydict_fetion_group(PyObject * dict);
+Fetion_Group * fetion_group_malloc(void);
+void fetion_group_free(Fetion_Group * group);
 /* Fetion_Black */
 PyObject * fetion_black_pydict(const Fetion_Black * black);
 Fetion_Black * pydict_fetion_black(PyObject * dict);
+Fetion_Black * fetion_black_malloc(void);
+void fetion_black_free(Fetion_Black * black);
 /* Fetion_BList */
 PyObject * fetion_blist_pydict(const Fetion_BList * blist);
 Fetion_BList * pydict_fetion_blist(PyObject * dict);
+Fetion_BList * fetion_blist_malloc(void);
+void fetion_blist_free(Fetion_BList * blist);
 /* Fetion_Qun */
 PyObject * fetion_qun_pydict(const Fetion_Qun * qun);
 Fetion_Qun * pydict_fetion_qun(PyObject * dict);
-
+Fetion_Qun * fetion_qun_malloc(void);
+void fetion_qun_free(Fetion_Qun * qun);
 /* Fetion_QunInfo */
 PyObject * fetion_quninfo_pydict(const Fetion_QunInfo * quninfo);
 Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict);
-
+Fetion_QunInfo * fetion_quninfo_malloc(void);
+void fetion_quninfo_free(Fetion_QunInfo * quninfo);
 /* Fetion_QunMember */
 PyObject * fetion_qunmember_pydict(const Fetion_QunMember * qunmember);
 Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict);
-
+Fetion_QunMember * fetion_qunmember_malloc(void);
+void fetion_qunmember_free(Fetion_QunMember * qunmember);
 /* PROXY_ITEM */
 PyObject * proxy_item_pydict(const PROXY_ITEM * proxy_item);
 PROXY_ITEM * pydict_proxy_item(PyObject * dict);
-
+PROXY_ITEM * proxy_item_malloc(void);
+void proxy_item_free(PROXY_ITEM * item);
 /* status */
 int status_str_int(const char * status);
 const char * status_int_str(int status);

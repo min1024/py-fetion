@@ -495,7 +495,7 @@ PyObject * pyf_is_pc_user_by_account(PyObject * self, PyObject * args)
 
 	Fetion_Account * pfa = pydict_fetion_account(account);
 	BOOL b = fx_is_pc_user_by_account(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 	if(b)
 	  Py_RETURN_TRUE;
 	else
@@ -524,7 +524,7 @@ PyObject * pyf_is_authed_by_account(PyObject * self, PyObject * args)
 
 	Fetion_Account * pfa = pydict_fetion_account(account);
 	int i = fx_is_authed_by_account(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -551,7 +551,7 @@ PyObject * pyf_is_InBlacklist_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(dict);
 	BOOL b = fx_is_InBlacklist_by_account(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 	if(b)
 	  Py_RETURN_TRUE;
 	else
@@ -581,7 +581,7 @@ PyObject * pyf_move_group_buddy(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	i = fx_move_group_buddy(pfa, group_id, NULL, NULL);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -608,7 +608,7 @@ PyObject * pyf_is_on_line_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	BOOL b = fx_is_on_line_by_account(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 	if(b)
 	  Py_RETURN_TRUE;
 	else
@@ -638,7 +638,7 @@ PyObject * pyf_get_online_status_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	status = fx_get_online_status_by_account(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("s", status_int_str(status));
 }
@@ -653,7 +653,7 @@ PyObject * pyf_get_refuse_sms_day(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
 	int i = fx_get_refuse_sms_day(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -694,7 +694,7 @@ PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args)
 	else
 	  b = FALSE;
 	s = fx_get_account_show_name(pfa, b);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("s", s);
 }
@@ -708,7 +708,7 @@ PyObject * pyf_get_qun_show_name(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Qun * pfq = (Fetion_Qun*)pydict_fetion_qun(pdfq);
 	s = fx_get_qun_show_name(pfq);
-	free(pfq);
+	fetion_qun_free(pfq);
 
 	return Py_BuildValue("s", s);
 }
@@ -722,7 +722,7 @@ PyObject * pyf_get_account_group_id(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
 	i = fx_get_account_group_id(pfa);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -870,7 +870,7 @@ PyObject * pyf_delete_buddy_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
 	i = fx_delete_buddy_by_account(pfa, NULL, NULL);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -896,7 +896,7 @@ PyObject * pyf_addto_blacklist_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
 	i = fx_addto_blacklist_by_account(pfa, NULL, NULL);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -934,7 +934,7 @@ PyObject * pyf_removefrom_blacklist_by_account(PyObject * self, PyObject * args)
 	  return NULL;
 	Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(pdfa);
 	i = fx_removefrom_blacklist_by_account(pfa, NULL, NULL);
-	free(pfa);
+	fetion_account_free(pfa);
 
 	return Py_BuildValue("i", i);
 }
@@ -999,7 +999,7 @@ PyObject * pyf_set_proxy(PyObject * self, PyObject * args)
 	  return NULL;
 	PROXY_ITEM * item = (PROXY_ITEM*)pydict_proxy_item(pdpi);
 	b = fx_set_proxy(item);
-	free(item);
+	proxy_item_free(item);
 
 	if(b)
 	  Py_RETURN_TRUE;
@@ -1021,7 +1021,7 @@ PyObject * pyf_test_network(PyObject * self, PyObject * args)
 	  return NULL;
 	PROXY_ITEM * item = (PROXY_ITEM*)pydict_proxy_item(pdpi);
 	i = fx_test_network(item, NULL, NULL);
-	free(item);
+	proxy_item_free(item);
 
 	return Py_BuildValue("i", i);
 }
@@ -1051,7 +1051,7 @@ Fetion_Account * pydict_fetion_account(PyObject * dict)
 	if(!PyDict_Check(dict))
 	  return NULL;
 
-	Fetion_Account * account = (Fetion_Account*)malloc(sizeof(Fetion_Account));
+	Fetion_Account * account = fetion_account_malloc();
 	if(!account) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "id");
@@ -1101,6 +1101,18 @@ PyObject * fetion_account_pydict(const Fetion_Account * account)
 	return dict;
 }
 
+Fetion_Account * fetion_account_malloc(void)
+{
+	return (Fetion_Account*)malloc(sizeof(Fetion_Account));
+}
+
+void fetion_account_free(Fetion_Account * account)
+{
+	if(!account) return;
+	fetion_personal_free(account->personal);
+	free(account);
+}
+
 /* Fetion_MSG */
 PyObject * fetion_msg_pydict(const Fetion_MSG * msg)
 {
@@ -1120,7 +1132,7 @@ Fetion_MSG * pydict_fetion_msg(PyObject * dict)
 {
 	if(!PyDict_Check(dict)) return NULL;
 
-	Fetion_MSG * msg = (Fetion_MSG*)malloc(sizeof(Fetion_MSG));
+	Fetion_MSG * msg = fetion_msg_malloc();
 	if(!msg) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "uid");
@@ -1136,6 +1148,16 @@ Fetion_MSG * pydict_fetion_msg(PyObject * dict)
 	msg->ext_id = PyLong_AsLong(obj);
 
 	return msg;
+}
+
+Fetion_MSG * fetion_msg_malloc(void)
+{
+	return (Fetion_MSG*)malloc(sizeof(Fetion_MSG));
+}
+
+void fetion_msg_free(Fetion_MSG * msg)
+{
+	free(msg);
 }
 
 /* Fetion_Personal */
@@ -1181,7 +1203,7 @@ Fetion_Personal * pydict_fetion_personal(PyObject * dict)
 {
 	if(!PyDict_Check(dict)) return NULL;
 
-	Fetion_Personal * personal = (Fetion_Personal*)malloc(sizeof(Fetion_Personal));
+	Fetion_Personal * personal = fetion_personal_malloc();
 	if(!personal) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "nickname");
@@ -1268,6 +1290,16 @@ Fetion_Personal * pydict_fetion_personal(PyObject * dict)
 	return personal;
 }
 
+Fetion_Personal * fetion_personal_malloc(void)
+{
+	return (Fetion_Personal*)malloc(sizeof(Fetion_Personal));
+}
+
+void fetion_personal_free(Fetion_Personal * personal)
+{
+	free(personal);
+}
+
 /* Fetion_Group */
 PyObject * fetion_group_pydict(const Fetion_Group * group)
 {
@@ -1286,7 +1318,7 @@ Fetion_Group * pydict_fetion_group(PyObject * dict)
 {
 	if(!PyDict_Check(dict)) return NULL;
 
-	Fetion_Group * group = (Fetion_Group*)malloc(sizeof(Fetion_Group));
+	Fetion_Group * group = fetion_group_malloc();
 	if(!group) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "id");
@@ -1296,6 +1328,16 @@ Fetion_Group * pydict_fetion_group(PyObject * dict)
 	group->name = PyString_AsString(obj);
 
 	return group;
+}
+
+Fetion_Group * fetion_group_malloc(void)
+{
+	return (Fetion_Group*)malloc(sizeof(Fetion_Group));
+}
+
+void fetion_group_free(Fetion_Group * group)
+{
+	free(group);
 }
 
 /* Fetion_Black */
@@ -1317,7 +1359,7 @@ Fetion_Black * pydict_fetion_black(PyObject * dict)
 {
 	if(!PyDict_Check(dict)) return NULL;
 
-	Fetion_Black * black = (Fetion_Black*)malloc(sizeof(Fetion_Black));
+	Fetion_Black * black = fetion_black_malloc();
 	if(!black) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "uid");
@@ -1330,6 +1372,16 @@ Fetion_Black * pydict_fetion_black(PyObject * dict)
 	black->local_name = PyString_AsString(obj);
 
 	return black;
+}
+
+Fetion_Black * fetion_black_malloc(void)
+{
+	return (Fetion_Black*)malloc(sizeof(Fetion_Black));
+}
+
+void fetion_black_free(Fetion_Black * black)
+{
+	free(black);
 }
 
 /* Fetion_BList */
@@ -1446,21 +1498,124 @@ PyObject * fetion_blist_pydict(const Fetion_BList * blist)
 
 Fetion_BList * pydict_fetion_blist(PyObject * dict)
 {
-/*	Py_ssize_t s, i;
+	Py_ssize_t s, i;
 
-	if(!PyDict_Check(dict)) return -1;
-	if(!blist) return -1;
+	if(!PyDict_Check(dict)) return NULL;
+
+	Fetion_BList * blist = fetion_blist_malloc();
+	if(!blist) return NULL;
 	
 	PyObject * obj = PyDict_GetItemString(dict, "account_count");
 	blist->account_count = (int)PyInt_AsLong(obj);
 
 	obj = PyDict_GetItemString(dict, "group");
 	s = PyList_Size(obj);
-	for(i=0; i<s; i++)
+	if(s > 0)
 	{
-	}*/
+		DList * list = d_list_alloc();
+		for(i=0; i<s; i++)
+		{
+			Fetion_Group * pfg = (Fetion_Group*)pydict_fetion_group(PyList_GetItem(obj, i));
+			d_list_append(list, pfg);
+		}
+		blist->group = list;
+	}
 
-	return NULL;
+	obj = PyDict_GetItemString(dict, "account");
+	s = PyList_Size(obj);
+	if(s > 0)
+	{
+		DList * list = d_list_alloc();
+		for(i=0; i<s; i++)
+		{
+			Fetion_Account * pfa = (Fetion_Account*)pydict_fetion_account(PyList_GetItem(obj, i));
+			d_list_append(list, pfa);
+		}
+		blist->account = list;
+	}
+
+	obj = PyDict_GetItemString(dict, "blacklist");
+	s = PyList_Size(obj);
+	if(s > 0)
+	{
+		DList * list = d_list_alloc();
+		for(i=0; i<s; i++)
+		{
+			Fetion_Black * pfb = (Fetion_Black*)pydict_fetion_black(PyList_GetItem(obj, i));
+			d_list_append(list, pfb);
+		}
+		blist->blacklist = list;
+	}
+
+	obj = PyDict_GetItemString(dict, "qun");
+	s = PyList_Size(obj);
+	if(s > 0)
+	{
+		DList * list = d_list_alloc();
+		for(i=0; i<s; i++)
+		{
+			Fetion_Qun * pfq = (Fetion_Qun*)pydict_fetion_qun(PyList_GetItem(obj, i));
+			d_list_append(list, pfq);
+		}
+		blist->qun = list;
+	}
+
+	return blist;
+}
+
+Fetion_BList * fetion_blist_malloc(void)
+{
+	return (Fetion_BList*)malloc(sizeof(Fetion_BList));
+}
+
+void fetion_blist_free(Fetion_BList * blist)
+{
+	if(!blist) return;
+	if(blist->group)
+	{
+		DList * l, * list = blist->group;
+		l = list;
+		while(list)
+		{
+			fetion_group_free((Fetion_Group*)list->data);
+			list = d_list_next(list);
+		}
+		d_list_free(l);
+	}
+	if(blist->account)
+	{
+		DList * l, * list = blist->account;
+		l = list;
+		while(list)
+		{
+			fetion_account_free((Fetion_Account*)list->data);
+			list = d_list_next(list);
+		}
+		d_list_free(l);
+	}
+	if(blist->blacklist)
+	{
+		DList * l, * list = blist->blacklist;
+		l = list;
+		while(list)
+		{
+			fetion_black_free((Fetion_Black*)list->data);
+			list = d_list_next(list);
+		}
+		d_list_free(l);
+	}
+	if(blist->qun)
+	{
+		DList * l, * list = blist->qun;
+		l = list;
+		while(list)
+		{
+			fetion_qun_free((Fetion_Qun*)list->data);
+			list = d_list_next(list);
+		}
+		d_list_free(l);
+	}
+	free(blist);
 }
 
 /* Fetion_Qun */
@@ -1488,7 +1643,35 @@ PyObject * fetion_qun_pydict(const Fetion_Qun * qun)
 
 Fetion_Qun * pydict_fetion_qun(PyObject * dict)
 {
-	return NULL;
+	if(!PyDict_Check(dict)) return NULL;
+
+	Fetion_Qun * qun = fetion_qun_malloc();
+	if(!qun) return NULL;
+	PyObject * obj = PyDict_GetItemString(dict, "id");
+	qun->id = PyLong_AsLong(obj);
+	obj = PyDict_GetItemString(dict, "uri");
+	qun->uri = PyString_AsString(obj);
+	obj = PyDict_GetItemString(dict, "identity");
+	qun->identity = (int)PyInt_AsLong(obj);
+	obj = PyDict_GetItemString(dict, "quninfo");
+	if(PyDict_Check(obj))
+	  qun->quninfo = pydict_fetion_quninfo(obj);
+	else
+	  qun->quninfo = NULL;
+
+	return qun;
+}
+
+Fetion_Qun * fetion_qun_malloc(void)
+{
+	return (Fetion_Qun*)malloc(sizeof(Fetion_Qun));
+}
+
+void fetion_qun_free(Fetion_Qun * qun)
+{
+	if(!qun) return;
+	fetion_quninfo_free(qun->quninfo);
+	free(qun);
 }
 
 /* Fetion_QunInfo */
@@ -1511,12 +1694,55 @@ PyObject * fetion_quninfo_pydict(const Fetion_QunInfo * quninfo)
 	PyDict_SetItemString(dict, "limit_member_count", Py_BuildValue("i", quninfo->limit_member_count));
 	PyDict_SetItemString(dict, "group_activity", Py_BuildValue("s", quninfo->group_activity));
 
+	if(quninfo->QunMember)
+	{
+		PyObject * plqm = PyList_New(0);
+		assert(plqm);
+		PyDict_SetItemString(dict, "QunMember", Py_BuildValue("O", plqm));
+		DList * list = quninfo->QunMember;
+		while(list)
+		{
+			Fetion_QunMember * pqm = (Fetion_QunMember*)list->data;
+			if(pqm)
+			  PyList_Append(plqm, fetion_qunmember_pydict(pqm));
+			list = d_list_next(list);
+
+		}
+	}
+	else
+	{
+		Py_INCREF(Py_None);
+		PyDict_SetItemString(dict, "QunMember", Py_BuildValue("O", Py_None));
+	}
+
 	return dict;
 }
 
 Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict)
 {
 	return 0;
+}
+
+Fetion_QunInfo * fetion_quninfo_malloc(void)
+{
+	return (Fetion_QunInfo*)malloc(sizeof(Fetion_QunInfo));
+}
+
+void fetion_quninfo_free(Fetion_QunInfo * quninfo)
+{
+	if(!quninfo) return;
+	if(quninfo->QunMember)
+	{
+		DList * l, * list = quninfo->QunMember;
+		l = list;
+		while(list)
+		{
+			fetion_qunmember_free((Fetion_QunMember*)list->data);
+			list = d_list_next(list);
+		}
+		d_list_free(l);
+	}
+	free(quninfo);
 }
 
 /* Fetion_QunMember */
@@ -1530,6 +1756,16 @@ Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict)
 	return 0;
 }
 
+Fetion_QunMember * fetion_qunmember_malloc(void)
+{
+	return (Fetion_QunMember*)malloc(sizeof(Fetion_QunMember));
+}
+
+void fetion_qunmember_free(Fetion_QunMember * qunmember)
+{
+	free(qunmember);
+}
+
 /* PROXY_ITEM */
 PyObject * proxy_item_pydict(const PROXY_ITEM * proxy_item)
 {
@@ -1539,6 +1775,16 @@ PyObject * proxy_item_pydict(const PROXY_ITEM * proxy_item)
 PROXY_ITEM * pydict_proxy_item(PyObject * dict)
 {
 	return NULL;
+}
+
+PROXY_ITEM * proxy_item_malloc(void)
+{
+	return (PROXY_ITEM*)malloc(sizeof(PROXY_ITEM));
+}
+
+void proxy_item_free(PROXY_ITEM * item)
+{
+	free(item);
 }
 
 /* status */
