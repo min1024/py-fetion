@@ -83,7 +83,17 @@ Parameters:\n\
 \t\t\t\targ : object, The callback function argument.\n\
 \targs : object, The callback function argument.\n\
 \n\
-Returns: None"
+Returns:\n\
+\t0 : fail immediately.\n\
+\totherwise : you can get the result from login callback function."
+
+#define HELP_RELOGIN	"relogin(None)\n\
+\n\
+Relogin fetion when your fetion have break from the server.\n\
+\n\
+Returns:\n\
+\t0 : fail immediately.\n\
+\totherwise : you can get the result from login callback function."
 
 #define HELP_LOGINOUT	"loginout(None)\n\
 \n\
