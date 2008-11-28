@@ -18,6 +18,7 @@ PyObject * pyf_close_network(PyObject * self, PyObject * args);
 /* Login and Out */
 PyObject * pyf_set_login_status(PyObject * self, PyObject * args);
 PyObject * pyf_login(PyObject * self, PyObject * args);
+PyObject * pyf_relogin(PyObject * self, PyObject * args);
 PyObject * pyf_loginout(PyObject * self, PyObject * args);
 /* Set System Message Callback Functions */
 PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args);
@@ -170,6 +171,7 @@ void system_msg_callback_func(int message, WPARAM wParam, LPARAM lParam, void *a
 static PyObject * login_cb = NULL;
 static PyObject * system_msg_cb = NULL;
 static PyObject * sys_msg_cb_args = NULL;
+static PyObject * login_cb_args = NULL;
 
 static PyMethodDef pyfetionMethods[] =
 {
@@ -178,6 +180,7 @@ static PyMethodDef pyfetionMethods[] =
 	{"close_network",  pyf_close_network, METH_VARARGS, HELP_CLOSE_NETWORK},
 	{"set_login_status", pyf_set_login_status , METH_VARARGS, HELP_SET_LOGIN_STATUS},
 	{"login", pyf_login , METH_VARARGS, HELP_LOGIN},
+	{"relogin", pyf_relogin , METH_VARARGS, HELP_RELOGIN},
 	{"loginout", pyf_loginout , METH_VARARGS, HELP_LOGINOUT},
 	{"set_system_msg_cb",pyf_set_system_msg_cb , METH_VARARGS, HELP_SET_SYSTEM_MSG_CB},
 	{"get_msg", pyf_get_msg , METH_VARARGS, HELP_GET_MSG},

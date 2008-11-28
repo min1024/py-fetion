@@ -52,18 +52,20 @@ PyObject * pyf_set_login_status(PyObject * self, PyObject * args)
 PyObject * pyf_login(PyObject * self, PyObject * args)
 {
 	char * uid, * pwd;
-	PyObject * fargs;
 
-	if(!PyArg_ParseTuple(args, "ssOO", &uid, &pwd, &login_cb, &fargs))
+	if(!PyArg_ParseTuple(args, "ssOO", &uid, &pwd, &login_cb, &login_cb_args))
 	  return NULL;
 	if(!login_cb) return NULL;
 	if(!PyCallable_Check(login_cb)) return NULL;
 	Py_XINCREF(login_cb);
 
-	if(fx_login(uid, pwd, login_callback_func, fargs))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
+	return Py_BuildValue("i", fx_login(uid, pwd, login_callback_func, login_cb_args));
+}
+
+/* int fx_relogin(EventListener, void *); */
+PyObject * pyf_relogin(PyObject * self, PyObject * args)
+{
+	return Py_BuildValue("i", fx_relogin(login_callback_func, login_cb_args));
 }
 
 /* void fx_loginout() */
