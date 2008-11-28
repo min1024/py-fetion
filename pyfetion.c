@@ -36,19 +36,6 @@ PyObject * pyf_close_network(PyObject * self, PyObject * args)
 }
 
 /* Login and Out */
-/* BOOL fs_login(const char *, const char *); */
-PyObject * pyf_s_login(PyObject * self, PyObject * args)
-{
-	char * uid, * pwd;
-
-	if(!PyArg_ParseTuple(args, "ss", &uid, &pwd))
-	  return NULL;
-	if(fs_login(uid, pwd))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
 /* void fx_set_login_status(int); */
 PyObject * pyf_set_login_status(PyObject * self, PyObject * args)
 {
@@ -119,46 +106,6 @@ PyObject * pyf_get_msg(PyObject * self, PyObject * args)
 }
 
 /* Send SMS Functions */
-/* BOOL fs_send_sms(const long, const char *); */
-PyObject * pyf_s_send_sms(PyObject * self, PyObject * args)
-{
-	long who;
-	char * msg;
-
-	if(!PyArg_ParseTuple(args, "ks", &who, &msg))
-	  return NULL;
-	if(fs_send_sms(who, msg))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
-/* BOOL fs_send_sms_by_mobile_no(const char *, const char *); */
-PyObject * pyf_s_send_sms_by_mobile_no(PyObject * self, PyObject * args)
-{
-	char * mobile, * msg;
-
-	if(!PyArg_ParseTuple(args, "ss", &mobile, &msg))
-	  return NULL;
-	if(fs_send_sms_by_mobile_no(mobile, msg))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
-/* BOOL fs_send_sms_to_self(const char *); */
-PyObject * pyf_s_send_sms_to_self(PyObject * self, PyObject * args)
-{
-	char * msg;
-
-	if(!PyArg_ParseTuple(args, "s", &msg))
-	  return NULL;
-	if(fs_send_sms_to_self(msg))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
 /* int fx_send_sms(const long, const char *, EventListener, void *); */
 PyObject * pyf_send_sms(PyObject * self, PyObject * args)
 {
@@ -209,45 +156,6 @@ PyObject * pyf_set_longsms(PyObject * self, PyObject * args)
 }
 
 /* Dialog message */
-/* BOOL fs_login_dialog(long); */
-PyObject * pyf_s_begin_dialog(PyObject * self, PyObject * args)
-{
-	long who;
-
-	if(!PyArg_ParseTuple(args, "k", &who))
-	  return NULL;
-	if(fs_begin_dialog(who))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
-/* BOOL fs_dialog_send(long, const char *); */
-PyObject * pyf_s_dialog_send(PyObject * self, PyObject * args)
-{
-	long who;
-	char * msg;
-
-	if(!PyArg_ParseTuple(args, "ks", &who, &msg))
-	  return NULL;
-	if(fs_dialog_send(who, msg))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
-/* void fs_end_dialog(long); */
-PyObject * pyf_s_end_dialog(PyObject * self, PyObject * args)
-{
-	long who;
-
-	if(!PyArg_ParseTuple(args, "k", &who))
-	  return NULL;
-	fs_end_dialog(who);
-
-	Py_RETURN_NONE;
-}
-
 /* int fx_begin_dialog(long, EventListenet, void *); */
 PyObject * pyf_begin_dialog(PyObject * self, PyObject * args)
 {
@@ -793,33 +701,6 @@ PyObject * pyf_get_account_group_id(PyObject * self, PyObject * args)
 }
 
 /* Group Opt Functions */
-/* BOOL fs_rename_buddylist(int, char *); */
-PyObject * pyf_s_rename_buddylist(PyObject * self, PyObject * args)
-{
-	int id;
-	char * name;
-
-	if(!PyArg_ParseTuple(args, "is", &id, &name))
-	  return NULL;
-	if(fs_rename_buddylist(id, name))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
-/* BOOL fs_delete_buddylist(int); */
-PyObject * pyf_s_delete_buddylist(PyObject * self, PyObject * args)
-{
-	int id;
-
-	if(!PyArg_ParseTuple(args, "i", &id))
-	  return NULL;
-	if(fs_delete_buddylist(id))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
 /* int fx_rename_buddylist(int, const char *, EventListener, void *); */
 PyObject * pyf_rename_buddylist(PyObject * self, PyObject * args)
 {
@@ -896,20 +777,6 @@ PyObject * pyf_delete_buddylist(PyObject * self, PyObject * args)
 }
 
 /* Buddy Opt Functions */
-/* BOOL fs_set_buddyinfo(long, const char *); */
-PyObject * pyf_s_set_buddyinfo(PyObject * self, PyObject * args)
-{
-	long uid;
-	char * localname;
-
-	if(!PyArg_ParseTuple(args, "ks", &uid, &localname))
-	  return NULL;
-	if(fs_set_buddyinfo(uid, localname))
-	  Py_RETURN_TRUE;
-	else
-	  Py_RETURN_FALSE;
-}
-
 /* int fx_set_buddyinfo(long, const char *, EventListener, void *); */
 PyObject * pyf_set_buddyinfo(PyObject * self, PyObject * args)
 {

@@ -16,7 +16,6 @@ PyObject * pyf_init(PyObject * self, PyObject * args);
 PyObject * pyf_terminate(PyObject * self, PyObject * args);
 PyObject * pyf_close_network(PyObject * self, PyObject * args);
 /* Login and Out */
-PyObject * pyf_s_login(PyObject * self, PyObject * args);
 PyObject * pyf_set_login_status(PyObject * self, PyObject * args);
 PyObject * pyf_login(PyObject * self, PyObject * args);
 PyObject * pyf_loginout(PyObject * self, PyObject * args);
@@ -25,17 +24,11 @@ PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args);
 /* Receive message functions */
 PyObject * pyf_get_msg(PyObject * self, PyObject * args);
 /* Send SMS Functions */
-PyObject * pyf_s_send_sms(PyObject * self, PyObject * args);
-PyObject * pyf_s_send_sms_by_mobile_no(PyObject * self, PyObject * args);
-PyObject * pyf_s_send_sms_to_self(PyObject * self, PyObject * args);
 PyObject * pyf_send_sms(PyObject * self, PyObject * args);
 PyObject * pyf_send_sms_to_self(PyObject * self, PyObject * args);
 PyObject * pyf_send_sms_by_mobile_no(PyObject * self, PyObject * args);
 PyObject * pyf_set_longsms(PyObject * self, PyObject * args);
 /* Dialog message */
-PyObject * pyf_s_begin_dialog(PyObject * self, PyObject * args);
-PyObject * pyf_s_dialog_send(PyObject * self, PyObject * args);
-PyObject * pyf_s_end_dialog(PyObject * self, PyObject * args);
 PyObject * pyf_begin_dialog(PyObject * self, PyObject * args);
 PyObject * pyf_dialog_send(PyObject * self, PyObject * args);
 PyObject * pyf_end_dialog(PyObject * self, PyObject * args);
@@ -81,8 +74,6 @@ PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args);
 PyObject * pyf_get_qun_show_name(PyObject * self, PyObject * args);
 PyObject * pyf_get_account_group_id(PyObject * self, PyObject * args);
 /* Group Opt Functions */
-PyObject * pyf_s_rename_buddylist(PyObject * self, PyObject * args);
-PyObject * pyf_s_delete_buddylist(PyObject * self, PyObject * args);
 PyObject * pyf_rename_buddylist(PyObject * self, PyObject * args);
 PyObject * pyf_add_buddylist(PyObject * self, PyObject * args);
 PyObject * pyf_add_buddy_by_uid(PyObject * self, PyObject * args);
@@ -90,7 +81,6 @@ PyObject * pyf_add_buddy_by_mobile(PyObject * self, PyObject * args);
 PyObject * pyf_handleContactRequest(PyObject * self, PyObject * args);
 PyObject * pyf_delete_buddylist(PyObject * self, PyObject * args);
 /* Buddy Opt Functions */
-PyObject * pyf_s_set_buddyinfo(PyObject * self, PyObject * args);
 PyObject * pyf_set_buddyinfo(PyObject * self, PyObject * args);
 PyObject * pyf_delete_buddy_by_id(PyObject * self, PyObject * args);
 PyObject * pyf_delete_buddy_by_account(PyObject * self, PyObject * args);
@@ -183,22 +173,15 @@ static PyMethodDef pyfetionMethods[] =
 	{"init", pyf_init, METH_VARARGS, HELP_INIT},
 	{"terminate",  pyf_terminate, METH_VARARGS, HELP_TERMINATE},
 	{"close_network",  pyf_close_network, METH_VARARGS, HELP_CLOSE_NETWORK},
-	{"s_login", pyf_s_login , METH_VARARGS, HELP_S_LOGIN},
 	{"set_login_status", pyf_set_login_status , METH_VARARGS, HELP_SET_LOGIN_STATUS},
 	{"login", pyf_login , METH_VARARGS, HELP_LOGIN},
 	{"loginout", pyf_loginout , METH_VARARGS, HELP_LOGINOUT},
 	{"set_system_msg_cb",pyf_set_system_msg_cb , METH_VARARGS, HELP_SET_SYSTEM_MSG_CB},
 	{"get_msg", pyf_get_msg , METH_VARARGS, HELP_GET_MSG},
-	{"s_send_sms", pyf_s_send_sms , METH_VARARGS, HELP_S_SEND_SMS},
-	{"s_send_sms_by_mobile_no", pyf_s_send_sms_by_mobile_no , METH_VARARGS, HELP_S_SEND_SMS_BY_MOBILE_NO},
-	{"s_send_sms_to_self", pyf_s_send_sms_to_self , METH_VARARGS, HELP_S_SEND_SMS_TO_SELF},
 	{"send_sms", pyf_send_sms , METH_VARARGS, HELP_SEND_SMS},
 	{"send_sms_to_self", pyf_send_sms_to_self , METH_VARARGS, HELP_SEND_SMS_TO_SELF},
 	{"send_sms_by_mobile_no", pyf_send_sms_by_mobile_no , METH_VARARGS, HELP_SEND_SMS_BY_MOBILE_NO},
 	{"set_longsms", pyf_set_longsms, METH_VARARGS, HELP_SET_LONGSMS},
-	{"s_begin_dialog", pyf_s_begin_dialog , METH_VARARGS, HELP_S_BEGIN_DIALOG},
-	{"s_dialog_send", pyf_s_dialog_send , METH_VARARGS, HELP_S_DIALOG_SEND},
-	{"s_end_dialog", pyf_s_end_dialog , METH_VARARGS, HELP_S_END_DIALOG},
 	{"begin_dialog", pyf_begin_dialog , METH_VARARGS, HELP_BEGIN_DIALOG},
 	{"dialog_send", pyf_dialog_send , METH_VARARGS, HELP_DIALOG_SEND},
 	{"end_dialog", pyf_end_dialog , METH_VARARGS, HELP_END_DIALOG},
@@ -240,15 +223,12 @@ static PyMethodDef pyfetionMethods[] =
 	{"get_account_show_name", pyf_get_account_show_name , METH_VARARGS, HELP_GET_ACCOUNT_SHOW_NAME},
 	{"get_qun_show_name", pyf_get_qun_show_name , METH_VARARGS, HELP_GET_QUN_SHOW_NAME},
 	{"get_account_group_id", pyf_get_account_group_id , METH_VARARGS, HELP_GET_ACCOUNT_GROUP_ID},
-	{"s_rename_buddylist", pyf_s_rename_buddylist , METH_VARARGS, HELP_S_RENAME_BUDDYLIST},
-	{"s_delete_buddylist", pyf_s_delete_buddylist, METH_VARARGS, HELP_S_DELETE_BUDDYLIST},
 	{"rename_buddylist", pyf_rename_buddylist, METH_VARARGS, HELP_RENAME_BUDDYLIST},
 	{"add_buddylist", pyf_add_buddylist, METH_VARARGS, HELP_ADD_BUDDYLIST},
 	{"add_buddy_by_uid", pyf_add_buddy_by_uid , METH_VARARGS, HELP_ADD_BUDDY_BY_UID},
 	{"add_buddy_by_mobile", pyf_add_buddy_by_mobile, METH_VARARGS, HELP_ADD_BUDDY_BY_MOBILE},
 	{"handleContactRequest", pyf_handleContactRequest, METH_VARARGS, HELP_HANDLECONTACTREQUEST},
 	{"delete_buddylist", pyf_delete_buddylist, METH_VARARGS, HELP_DELETE_BUDDYLIST},
-	{"s_set_buddyinfo", pyf_s_set_buddyinfo, METH_VARARGS, HELP_S_SET_BUDDYINFO},
 	{"set_buddyinfo", pyf_set_buddyinfo, METH_VARARGS, HELP_SET_BUDDYINFO},
 	{"delete_buddy_by_id", pyf_delete_buddy_by_id, METH_VARARGS, HELP_DELETE_BUDDY_BY_ID},
 	{"delete_buddy_by_account", pyf_delete_buddy_by_account, METH_VARARGS, HELP_DELETE_BUDDY_BY_ACCOUNT},
