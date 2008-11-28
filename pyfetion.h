@@ -219,7 +219,7 @@ static PyMethodDef pyfetionMethods[] =
 	{"is_on_line_by_id", pyf_is_on_line_by_id , METH_VARARGS, HELP_IS_ON_LINE_BY_ID},
 	{"is_on_line_by_account", pyf_is_on_line_by_account , METH_VARARGS, HELP_IS_ON_LINE_BY_ACCOUNT},
 	{"get_online_status_by_id", pyf_get_online_status_by_id , METH_VARARGS, HELP_GET_ON_LINE_STATUS_BY_ID},
-	{"get_online_ststus_by_account", pyf_get_online_status_by_account , METH_VARARGS, HELP_GET_ON_LINE_STATUS_BY_ACCOUNT},
+	{"get_online_status_by_account", pyf_get_online_status_by_account , METH_VARARGS, HELP_GET_ON_LINE_STATUS_BY_ACCOUNT},
 	{"get_refuse_sms_day", pyf_get_refuse_sms_day, METH_VARARGS, HELP_GET_REFUSE_SMS_DAY},
 	{"updata_account_info_by_id", pyf_updata_account_info_by_id , METH_VARARGS, HELP_UPDATA_ACCOUNT_INFO_BY_ID},
 	{"updata_account_info_all", pyf_updata_account_info_all , METH_VARARGS, HELP_UPDATA_ACCOUNT_INFO_ALL},
