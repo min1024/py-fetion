@@ -56,6 +56,7 @@ PyObject * pyf_login(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "ssOO", &uid, &pwd, &login_cb, &fargs))
 	  return NULL;
+	if(!login_cb) return NULL;
 	if(!PyCallable_Check(login_cb)) return NULL;
 	Py_XINCREF(login_cb);
 
@@ -79,6 +80,7 @@ PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args)
 {
 	if(!PyArg_ParseTuple(args, "OO", &system_msg_cb, &sys_msg_cb_args))
 	  return NULL;
+	if(!system_msg_cb) return NULL;
 	if(!PyCallable_Check(system_msg_cb)) return NULL;
 	Py_XINCREF(system_msg_cb);
 
@@ -145,8 +147,8 @@ PyObject * pyf_set_longsms(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &pb))
 	  return NULL;
-	if(!PyBool_Check(pb))
-	  return NULL;
+	if(!pb) return NULL;
+	if(!PyBool_Check(pb)) return NULL;
 	if(pb == Py_True)
 	  fx_set_longsms(TRUE);
 	else
@@ -447,6 +449,7 @@ PyObject * pyf_is_pc_user_by_account(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &account))
 	  return NULL;
+	if(!account) return NULL;
 	if(!PyDict_Check(account))
 	  return NULL;
 
@@ -478,6 +481,7 @@ PyObject * pyf_is_authed_by_account(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &account))
 	  return NULL;
+	if(!account) return NULL;
 	if(!PyDict_Check(account))
 	  return NULL;
 
@@ -508,6 +512,7 @@ PyObject * pyf_is_InBlacklist_by_account(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &dict))
 	  return NULL;
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict))
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(dict);
@@ -540,6 +545,7 @@ PyObject * pyf_move_group_buddy(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "Oi", &pdfa, &group_id))
 	  return NULL;
+	if(!pdfa) return NULL;
 	if(!PyDict_Check(pdfa))
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
@@ -569,6 +575,7 @@ PyObject * pyf_is_on_line_by_account(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &pdfa))
 	  return NULL;
+	if(!pdfa) return NULL;
 	if(!PyDict_Check(pdfa))
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
@@ -601,6 +608,7 @@ PyObject * pyf_get_online_status_by_account(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &pdfa))
 	  return NULL;
+	if(!pdfa) return NULL;
 	if(!PyDict_Check(pdfa))
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
@@ -617,6 +625,7 @@ PyObject * pyf_get_refuse_sms_day(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "O", &pdfa))
 	  return NULL;
+	if(!pdfa) return NULL;
 	if(!PyDict_Check(pdfa))
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
@@ -655,8 +664,10 @@ PyObject * pyf_get_account_show_name(PyObject * self, PyObject * args)
 
 	if(!PyArg_ParseTuple(args, "OO", &pdfa, &pb))
 	  return NULL;
+	if(!pdfa) return NULL;
 	if(!PyDict_Check(pdfa))
 	  return NULL;
+	if(!pb) return NULL;
 	if(!PyBool_Check(pb))
 	  return NULL;
 	Fetion_Account * pfa = pydict_fetion_account(pdfa);
@@ -1010,6 +1021,7 @@ void initpyfetion(void)
 /* Fetion_Account */
 Fetion_Account * pydict_fetion_account(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict))
 	  return NULL;
 
@@ -1032,6 +1044,9 @@ Fetion_Account * pydict_fetion_account(PyObject * dict)
 	account->online_status = status_str_int(PyString_AsString(obj));
 
 	PyObject * personal = PyDict_GetItemString(dict, "personal");
+	if(!personal)
+	  account->personal = NULL;
+
 	if(PyDict_Check(personal))
 	  account->personal = pydict_fetion_personal(personal);
 	else
@@ -1056,7 +1071,7 @@ PyObject * fetion_account_pydict(const Fetion_Account * account)
 	  PyDict_SetItemString(dict, "personal", Py_BuildValue("O", fetion_personal_pydict(account->personal)));
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "personal", Py_BuildValue("O", Py_None));
 	}
 
@@ -1092,6 +1107,7 @@ PyObject * fetion_msg_pydict(const Fetion_MSG * msg)
 
 Fetion_MSG * pydict_fetion_msg(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_MSG * msg = fetion_msg_malloc();
@@ -1163,6 +1179,7 @@ PyObject * fetion_personal_pydict(const Fetion_Personal * personal)
 
 Fetion_Personal * pydict_fetion_personal(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_Personal * personal = fetion_personal_malloc();
@@ -1278,6 +1295,7 @@ PyObject * fetion_group_pydict(const Fetion_Group * group)
 
 Fetion_Group * pydict_fetion_group(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_Group * group = fetion_group_malloc();
@@ -1319,6 +1337,7 @@ PyObject * fetion_black_pydict(const Fetion_Black * black)
 
 Fetion_Black * pydict_fetion_black(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_Black * black = fetion_black_malloc();
@@ -1381,7 +1400,7 @@ PyObject * fetion_blist_pydict(const Fetion_BList * blist)
 	}
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "group", Py_BuildValue("O", Py_None));
 	}
 
@@ -1405,7 +1424,7 @@ PyObject * fetion_blist_pydict(const Fetion_BList * blist)
 	}
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "account", Py_BuildValue("O", Py_None));
 	}
 
@@ -1428,7 +1447,7 @@ PyObject * fetion_blist_pydict(const Fetion_BList * blist)
 	}
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "blacklist", Py_BuildValue("O", Py_None));
 	}
 
@@ -1451,7 +1470,7 @@ PyObject * fetion_blist_pydict(const Fetion_BList * blist)
 	}
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "qun", Py_BuildValue("O", Py_None));
 	}
 
@@ -1462,6 +1481,7 @@ Fetion_BList * pydict_fetion_blist(PyObject * dict)
 {
 	Py_ssize_t s, i;
 
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_BList * blist = fetion_blist_malloc();
@@ -1603,7 +1623,7 @@ PyObject * fetion_qun_pydict(const Fetion_Qun * qun)
 	  PyDict_SetItemString(dict, "quninfo", Py_BuildValue("O", fetion_quninfo_pydict(qun->quninfo)));
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "quninfo", Py_BuildValue("O", Py_None));
 	}
 
@@ -1612,6 +1632,7 @@ PyObject * fetion_qun_pydict(const Fetion_Qun * qun)
 
 Fetion_Qun * pydict_fetion_qun(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_Qun * qun = fetion_qun_malloc();
@@ -1623,6 +1644,9 @@ Fetion_Qun * pydict_fetion_qun(PyObject * dict)
 	obj = PyDict_GetItemString(dict, "identity");
 	qun->identity = (int)PyInt_AsLong(obj);
 	obj = PyDict_GetItemString(dict, "quninfo");
+	if(!obj)
+	  qun->quninfo = NULL;
+	
 	if(PyDict_Check(obj))
 	  qun->quninfo = pydict_fetion_quninfo(obj);
 	else
@@ -1680,7 +1704,7 @@ PyObject * fetion_quninfo_pydict(const Fetion_QunInfo * quninfo)
 	}
 	else
 	{
-		Py_INCREF(Py_None);
+		Py_XINCREF(Py_None);
 		PyDict_SetItemString(dict, "QunMember", Py_BuildValue("O", Py_None));
 	}
 
@@ -1689,6 +1713,7 @@ PyObject * fetion_quninfo_pydict(const Fetion_QunInfo * quninfo)
 
 Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_QunInfo * pqi = fetion_quninfo_malloc();
@@ -1728,6 +1753,9 @@ Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict)
 	pqi->group_activity = PyString_AsString(obj);
 
 	obj = PyDict_GetItemString(dict, "QunMember");
+	if(!obj)
+	  pqi->QunMember = NULL;
+	
 	if(PyList_Check(obj))
 	{
 		DList * list = d_list_alloc();
@@ -1785,6 +1813,7 @@ PyObject * fetion_qunmember_pydict(const Fetion_QunMember * qunmember)
 
 Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict)
 {
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	Fetion_QunMember * pqm = fetion_qunmember_malloc();
@@ -1864,6 +1893,7 @@ PROXY_ITEM * pydict_proxy_item(PyObject * dict)
 {
 	char * s = NULL;
 
+	if(!dict) return NULL;
 	if(!PyDict_Check(dict)) return NULL;
 
 	PROXY_ITEM * item = proxy_item_malloc();

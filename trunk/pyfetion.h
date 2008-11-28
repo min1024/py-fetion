@@ -103,7 +103,10 @@ PyObject * pyf_simple_paser_msg(PyObject * self, PyObject * args);
 //PyObject * pyf_(PyObject * self, PyObject * args);
 
 /* Init function */
-extern "C" void initpyfetion(void);
+extern "C" 
+{
+	void initpyfetion(void);
+}
 
 /* Fetion_Account */
 Fetion_Account * pydict_fetion_account(PyObject * dict);
