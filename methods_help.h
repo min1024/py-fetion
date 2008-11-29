@@ -95,7 +95,7 @@ Returns:\n\
 \t0 : fail immediately.\n\
 \totherwise : you can get the result from login callback function."
 
-#define HELP_LOGINOUT	"loginout(None)\n\
+#define HELP_LOGOUT	"logout(None)\n\
 \n\
 Loginout fetion.\n\
 \n\
@@ -235,19 +235,19 @@ Returns:\n\
 \t0 : send sms fail immediately.\n\
 \totherwise : you can get the result from the system message callback function."
 
-#define HELP_SEND_SMS_BY_MOBILE_NO	"send_sms_by_mobile_no(mobile_no, message)\n\
+#define HELP_SEND_SMS_BY_MOBILE	"send_sms_by_mobile(mobile, message)\n\
 \n\
 Send sms by mobile number.\n\
 \n\
 Parameters:\n\
-\tmobile_no : string, The mobile number which you want to send.\n\
+\tmobile : string, The mobile number which you want to send.\n\
 \tmessage : string, The content which you want to send.\n\
 \n\
 Returns:\n\
 \t0 : send sms fail immediately.\n\
 \totherwise : you can get the result from the system callback function."
 
-#define HELP_SET_LONGSMS	"set_longsms(bl)\n\
+#define HELP_SET_LONG_SMS	"set_long_sms(bl)\n\
 \n\
 Set the send sms mode, it maybe longsms or sms normally.\n\
 \n\
@@ -288,7 +288,7 @@ Parameters:\n\
 \n\
 Returns: None"
 
-#define HELP_GET_USR_UID	"get_usr_uid(None)\n\
+#define HELP_GET_USER_UID	"get_user_uid(None)\n\
 \n\
 Get a current user id uid.\n\
 \n\
@@ -296,7 +296,7 @@ Returns:\n\
 \tNone : fail.\n\
 \tString : user id"
 
-#define HELP_GET_USR_PASSWD	"get_usr_passwd(None)\n\
+#define HELP_GET_USER_PASSWORD	"get_user_password(None)\n\
 \n\
 Get a current user is password.\n\
 \n\
@@ -304,7 +304,7 @@ Returns:\n\
 \tNone : fail.\n\
 \tString : user password"
 
-#define HELP_GET_USR_SHOW_NAME	"get_usr_show_name(None)\n\
+#define HELP_GET_USER_SHOW_NAME	"get_user_show_name(None)\n\
 \n\
 Get a current user is name.\n\
 \n\
@@ -312,7 +312,7 @@ Returns:\n\
 \tNone : fail.\n\
 \tString : user show name."
 
-#define HELP_GET_USR_URI	"get_usr_uri(None)\n\
+#define HELP_GET_USER_URI	"get_user_uri(None)\n\
 \n\
 Get a current user is uri.\n\
 \n\
@@ -320,7 +320,7 @@ Returns:\n\
 \tNone : fail.\n\
 \tString : user uri."
 
-#define HELP_GET_USR_MOBILENUM	"get_usr_mobilenum(None)\n\
+#define HELP_GET_USER_MOBILE	"get_user_mobile(None)\n\
 \n\
 Get a current user is mobile number.\n\
 \n\
@@ -328,7 +328,7 @@ Returns:\n\
 \tNone : fail.\n\
 \tString : user mobile number."
 
-#define HELP_GET_USR_SCORE	"get_usr_score(None)\n\
+#define HELP_GET_USER_SCORE	"get_user_score(None)\n\
 \n\
 Get the user is score.\n\
 \n\
@@ -406,13 +406,13 @@ Returns:\n\
 \tnon zero : successfully.\n\
 \totherwise : fail."
 
-#define HELP_GET_EXPIRETIME	"get_expirestime(None)\n\
+#define HELP_GET_EXPIRE_TIME	"get_expires_time(None)\n\
 \n\
 Get the expires time of the fetion.\n\
 \n\
 Returns: the expirestime, if expires time = 0, you should quit fetion."
 
-#define HELP_DATA_GET_PERSONALINFO	"data_get_PersonalInfo(None)\n\
+#define HELP_GET_PERSONAL_INFO	"get_personal_info(None)\n\
 \n\
 Get a current user id personal information.\n\
 \n\
@@ -584,7 +584,7 @@ Returns:\n\
 \tTrue  : The user id is authed.\n\
 \tFalse : The user id isn't authed."
 
-#define HELP_IS_INBLACKLIST_BY_ID	"is_InBlacklist_by_id(id)\n\
+#define HELP_IS_IN_BLACKLIST_BY_ID	"is_in_blacklist_by_id(id)\n\
 \n\
 Judge this account is in the blacklist.\n\
 \n\
@@ -595,7 +595,7 @@ Returns:\n\
 \tTrue  : The user is in your blacklist.\n\
 \tFalse : The user isn't in your blacklist."
 
-#define HELP_IS_INBLACKLIST_BY_ACCOUNT	"is_InBlacklist_by_account(account)\n\
+#define HELP_IS_IN_BLACKLIST_BY_ACCOUNT	"is_in_blacklist_by_account(account)\n\
 \n\
 Judge this account is in the blacklist.\n\
 \n\
@@ -630,7 +630,7 @@ Returns:\n\
 \t0 : fail immediately.\n\
 \totherwise : you can get the result from the system callback function."
 
-#define HELP_IS_ON_LINE_BY_ID	"is_on_line_by_id(id)\n\
+#define HELP_IS_ONLINE_BY_ID	"is_online_by_id(id)\n\
 \n\
 Judge this id is online or not.\n\
 \n\
@@ -641,7 +641,7 @@ Returns:\n\
 \tTrue  : The user is online.\n\
 \tFalse : The user isn't online."
 
-#define HELP_IS_ON_LINE_BY_ACCOUNT	"is_on_line_by_account(account)\n\
+#define HELP_IS_ONLINE_BY_ACCOUNT	"is_online_by_account(account)\n\
 \n\
 Judge this account is online or not.\n\
 \n\
@@ -652,7 +652,7 @@ Returns:\n\
 \tTrue  : The user is online.\n\
 \tFalse : The user isn't online."
 
-#define HELP_GET_ON_LINE_STATUS_BY_ID	"get_online_status_by_id(id)\n\
+#define HELP_GET_ONLINE_STATUS_BY_ID	"get_online_status_by_id(id)\n\
 \n\
 Return fetion uid's online status.\n\
 \n\
@@ -661,7 +661,7 @@ Parameters:\n\
 \n\
 Returns: user status"
 
-#define HELP_GET_ON_LINE_STATUS_BY_ACCOUNT	"get_online_status_by_account(account)\n\
+#define HELP_GET_ONLINE_STATUS_BY_ACCOUNT	"get_online_status_by_account(account)\n\
 \n\
 Return fetion account's online status.\n\
 \n\
@@ -679,7 +679,7 @@ Parameters:\n\
 \n\
 Returns: the numbers of refuse sms day."
 
-#define HELP_UPDATA_ACCOUNT_INFO_BY_ID	"updata_account_info_by_id(id)\n\
+#define HELP_UPDATE_ACCOUNT_INFO_BY_ID	"update_account_info_by_id(id)\n\
 \n\
 Update the account info which uid's the gived id.\n\
 \n\
@@ -688,7 +688,7 @@ Parameters:\n\
 \n\
 Returns: None"
 
-#define HELP_UPDATA_ACCOUNT_INFO_ALL	"updata_account_info_all(None)\n\
+#define HELP_UPDATE_ACCOUNT_INFO_ALL	"update_account_info_all(None)\n\
 \n\
 Update all the account info.\n\
 \n\
@@ -775,7 +775,7 @@ Returns:\n\
 \t0 : fail immediately.\n\
 \totherwise : you can get the result from the system calback function."
 
-#define HELP_HANDLECONTACTREQUEST	"handleContactRequest(uri, isPassed, group, local_name)\n\
+#define HELP_HANDLE_CONTACT_REQUEST	"handle_contact_request(uri, isPassed, group, local_name)\n\
 \n\
 Handle a request of addaccount.\n\
 \n\
@@ -960,6 +960,23 @@ Get the Get the proxy information.\n\
 \n\
 Returns: proxy information. (See pyfetion.set_proxy)"
 
+#define HELP_SET_PROXY_ENABLE	"set_proxy_enable(status)\n\
+\n\
+Set the proxy isEnabled.\n\
+\n\
+Parameters:\n\
+\tstatus : bool, True is enable proxy, False is disable proxy.\n\
+\n\
+Returns: None"
+
+#define HELP_IS_PROXY_ENABLE	"is_proxy_enable(None)\n\
+\n\
+Get the proxy isEnabled.\n\
+\n\
+Returns:\n\
+\tTrue  : The proxy is enabled.\n\
+\tFalse : The proxy is disabled."
+
 #define HELP_TEST_NETWORK	"test_network(proxy)\n\
 \n\
 Get the fetion network is working of proxy.\n\
@@ -981,6 +998,17 @@ Parameters:\n\
 Returns:\n\
 \tNone : fail, msg format is wrong.\n\
 \totherwise : The no format message."
+
+#define HELP_GET_ORIGINAL_ID	"get_original_id(id)\n\
+\n\
+Get the original id of the user.\n\
+\n\
+Parameters:\n\
+\tid : number, the user id.\n\
+\n\
+Returns:\n\
+\tIf the user is PC user, it will return the fetion id.\n\
+\tIf the user is Mobile user, it will return the user's mobile."
 
 #endif /* __METHODS_HTLP_H__ */
 
