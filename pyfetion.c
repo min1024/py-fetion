@@ -1090,19 +1090,19 @@ Fetion_Account * pydict_fetion_account(PyObject * dict)
 	if(!account) return NULL;
 	
 	PyObject * obj = PyDict_GetItemString(dict, "id");
-	account->id = obj?PyLong_AsLong(obj):0;
+	account->id = (obj && PyLong_Check(obj))?PyLong_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "uri");
-	account->uri = obj?PyString_AsString(obj):NULL;
+	account->uri = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "local_name");
-	account->local_name = obj?PyString_AsString(obj):NULL;
+	account->local_name = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "buddy_lists");
-	account->buddy_lists = obj?PyString_AsString(obj):NULL;
+	account->buddy_lists = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "online_status");
-	account->online_status = obj?status_str_int(PyString_AsString(obj)):FX_STATUS_UNSET;
+	account->online_status = (obj && PyString_Check(obj))?status_str_int(PyString_AsString(obj)):FX_STATUS_UNSET;
 
 	account->personal = NULL;	/* !!!! */
 	PyObject * personal = PyDict_GetItemString(dict, "personal");
@@ -1174,16 +1174,16 @@ Fetion_MSG * pydict_fetion_msg(PyObject * dict)
 	if(!msg) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "uid");
-	msg->uid = obj?PyLong_AsLong(obj):0;
+	msg->uid = (obj && PyLong_Check(obj))?PyLong_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "message");
-	msg->message = obj?PyString_AsString(obj):NULL;
+	msg->message = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "msgformat");
-	msg->msgformat = obj?PyString_AsString(obj):NULL;
+	msg->msgformat = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "ext_id");
-	msg->ext_id = obj?PyLong_AsLong(obj):0;
+	msg->ext_id = (obj && PyLong_Check(obj))?PyLong_AsLong(obj):0;
 
 	return msg;
 }
@@ -1246,85 +1246,85 @@ Fetion_Personal * pydict_fetion_personal(PyObject * dict)
 	if(!personal) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "nickname");
-	personal->nickname = obj?PyString_AsString(obj):NULL;
+	personal->nickname = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "impresa");
-	personal->impresa = obj?PyString_AsString(obj):NULL;
+	personal->impresa = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "gender");
-	personal->gender = obj?(int)PyInt_AsLong(obj):0;
+	personal->gender = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "nation");
-	personal->nation = obj?PyString_AsString(obj):NULL;
+	personal->nation = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "province");
-	personal->province = obj?PyString_AsString(obj):NULL;
+	personal->province = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "city");
-	personal->city = obj?(int)PyInt_AsLong(obj):0;
+	personal->city = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "portrait_crc");
-	personal->portrait_crc = obj?(int)PyInt_AsLong(obj):0;
+	personal->portrait_crc = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "mobile_no");
-	personal->mobile_no = obj?PyString_AsString(obj):NULL;
+	personal->mobile_no = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "name");
-	personal->name = obj?PyString_AsString(obj):NULL;
+	personal->name = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "birth_date");
-	personal->birth_date = obj?PyString_AsString(obj):NULL;
+	personal->birth_date = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "lunar_animal");
-	personal->lunar_animal = obj?(int)PyInt_AsLong(obj):0;
+	personal->lunar_animal = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "horoscope");
-	personal->horoscope = obj?(int)PyInt_AsLong(obj):0;
+	personal->horoscope = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "profile");
-	personal->profile = obj?PyString_AsString(obj):NULL;
+	personal->profile = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "blood_type");
-	personal->blood_type = obj?(int)PyInt_AsLong(obj):0;
+	personal->blood_type = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "occupation");
-	personal->occupation = obj?PyString_AsString(obj):NULL;
+	personal->occupation = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "hobby");
-	personal->hobby = obj?PyString_AsString(obj):NULL;
+	personal->hobby = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "personal_email");
-	personal->personal_email = obj?PyString_AsString(obj):NULL;
+	personal->personal_email = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "work_email");
-	personal->work_email = obj?PyString_AsString(obj):NULL;
+	personal->work_email = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "other_email");
-	personal->other_email = obj?PyString_AsString(obj):NULL;
+	personal->other_email = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "primary_email");
-	personal->primary_email = obj?(int)PyInt_AsLong(obj):0;
+	personal->primary_email = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "job_title");
-	personal->job_title = obj?PyString_AsString(obj):NULL;
+	personal->job_title = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "home_phone");
-	personal->home_phone = obj?PyString_AsString(obj):NULL;
+	personal->home_phone = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "work_phone");
-	personal->work_phone = obj?PyString_AsString(obj):NULL;
+	personal->work_phone = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "other_phone");
-	personal->other_phone = obj?PyString_AsString(obj):NULL;
+	personal->other_phone = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "company");
-	personal->company = obj?PyString_AsString(obj):NULL;
+	personal->company = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "company_website");
-	personal->company_website = obj?PyString_AsString(obj):NULL;
+	personal->company_website = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "match_enabled");
-	personal->match_enabled = obj?(int)PyInt_AsLong(obj):0;
+	personal->match_enabled = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	return personal;
 }
@@ -1362,10 +1362,10 @@ Fetion_Group * pydict_fetion_group(PyObject * dict)
 	if(!group) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "id");
-	group->id = obj?(int)PyInt_AsLong(obj):0;
+	group->id = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "name");
-	group->name = obj?PyString_AsString(obj):NULL;
+	group->name = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	return group;
 }
@@ -1404,13 +1404,13 @@ Fetion_Black * pydict_fetion_black(PyObject * dict)
 	if(!black) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "uid");
-	black->uid = obj?PyLong_AsLong(obj):0;
+	black->uid = (obj && PyLong_Check(obj))?PyLong_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "uri");
-	black->uri = obj?PyString_AsString(obj):NULL;
+	black->uri = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "local_name");
-	black->local_name = obj?PyString_AsString(obj):NULL;
+	black->local_name = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	return black;
 }
@@ -1548,7 +1548,7 @@ Fetion_BList * pydict_fetion_blist(PyObject * dict)
 	if(!blist) return NULL;
 	
 	PyObject * obj = PyDict_GetItemString(dict, "account_count");
-	blist->account_count = obj?(int)PyInt_AsLong(obj):0;
+	blist->account_count = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "group");
 	DList * list = d_list_alloc();
@@ -1708,13 +1708,13 @@ Fetion_Qun * pydict_fetion_qun(PyObject * dict)
 	if(!qun) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "id");
-	qun->id = obj?PyLong_AsLong(obj):0;
+	qun->id = (obj && PyLong_Check(obj))?PyLong_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "uri");
-	qun->uri = obj?PyString_AsString(obj):NULL;
+	qun->uri = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "identity");
-	qun->identity = obj?(int)PyInt_AsLong(obj):0;
+	qun->identity = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "quninfo");
 	qun->quninfo = NULL;	/* !!! */
@@ -1792,37 +1792,37 @@ Fetion_QunInfo * pydict_fetion_quninfo(PyObject * dict)
 	if(!pqi) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "uri");
-	pqi->uri = obj?PyString_AsString(obj):NULL;
+	pqi->uri = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "group_attributes_version");
-	pqi->group_attributes_version = obj?(int)PyInt_AsLong(obj):0;
+	pqi->group_attributes_version = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "name");
-	pqi->name = obj?PyString_AsString(obj):NULL;
+	pqi->name = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "category");
-	pqi->category = obj?(int)PyInt_AsLong(obj):0;
+	pqi->category = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "introduce");
-	pqi->introduce = obj?PyString_AsString(obj):NULL;
+	pqi->introduce = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "bulletin");
-	pqi->bulletin = obj?PyString_AsString(obj):NULL;
+	pqi->bulletin = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "portrait_crc");
-	pqi->portrait_crc = obj?(int)PyInt_AsLong(obj):0;
+	pqi->portrait_crc = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "searchable");
-	pqi->searchable = obj?(int)PyInt_AsLong(obj):0;
+	pqi->searchable = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "current_member_count");
-	pqi->current_member_count = obj?(int)PyInt_AsLong(obj):0;
+	pqi->current_member_count = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "limit_member_count");
-	pqi->limit_member_count = obj?(int)PyInt_AsLong(obj):0;
+	pqi->limit_member_count = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "group_activity");
-	pqi->group_activity = obj?PyString_AsString(obj):NULL;
+	pqi->group_activity = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "QunMember");
 	DList * list = d_list_alloc();
@@ -1893,25 +1893,25 @@ Fetion_QunMember * pydict_fetion_qunmember(PyObject * dict)
 	if(!pqm) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "uri");
-	pqm->uri = obj?PyString_AsString(obj):NULL;
+	pqm->uri = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "id");
-	pqm->id = obj?PyLong_AsLong(obj):0;
+	pqm->id = (obj && PyLong_Check(obj))?PyLong_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "nickname");
-	pqm->nickname = obj?PyString_AsString(obj):NULL;
+	pqm->nickname = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "iicnickname");
-	pqm->iicnickname = obj?PyString_AsString(obj):NULL;
+	pqm->iicnickname = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "identity");
-	pqm->identity = obj?(int)PyInt_AsLong(obj):0;
+	pqm->identity = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "state");
-	pqm->state = obj?(int)PyInt_AsLong(obj):0;
+	pqm->state = (obj && PyInt_Check(obj))?(int)PyInt_AsLong(obj):0;
 
 	obj = PyDict_GetItemString(dict, "client_type");
-	pqm->client_type = obj?PyString_AsString(obj):NULL;
+	pqm->client_type = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	return pqm;
 }
@@ -1973,19 +1973,19 @@ PROXY_ITEM * pydict_proxy_item(PyObject * dict)
 	if(!item) return NULL;
 
 	PyObject * obj = PyDict_GetItemString(dict, "host");
-	item->host = obj?PyString_AsString(obj):NULL;
+	item->host = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "port");
-	item->port = obj?PyString_AsString(obj):NULL;
+	item->port = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "name");
-	item->name = obj?PyString_AsString(obj):NULL;
+	item->name = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "pwd");
-	item->pwd = obj?PyString_AsString(obj):NULL;
+	item->pwd = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 
 	obj = PyDict_GetItemString(dict, "type");
-	s = obj?PyString_AsString(obj):NULL;
+	s = (obj && PyString_Check(obj))?PyString_AsString(obj):NULL;
 	
 	item->type = PROXY_DIRECT;	/* default */
 	if(s)
