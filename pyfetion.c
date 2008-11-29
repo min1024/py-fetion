@@ -63,6 +63,7 @@ PyObject * pyf_login(PyObject * self, PyObject * args)
 	if(!login_cb) return NULL;
 	if(!PyCallable_Check(login_cb)) return NULL;
 	Py_XINCREF(login_cb);
+	Py_XINCREF(login_cb_args);
 
 	return Py_BuildValue("i", fx_login(uid, pwd, login_callback_func, login_cb_args));
 }
@@ -91,6 +92,7 @@ PyObject * pyf_set_system_msg_cb(PyObject * self, PyObject * args)
 	if(!system_msg_cb) return NULL;
 	if(!PyCallable_Check(system_msg_cb)) return NULL;
 	Py_XINCREF(system_msg_cb);
+	Py_XINCREF(sys_msg_cb_args);
 
 	fx_set_system_msg_cb(system_msg_callback_func, sys_msg_cb_args);
 
@@ -108,16 +110,12 @@ PyObject * pyf_get_msg(PyObject * self, PyObject * args)
 	  return NULL;
 
 	msg = fx_get_msg(uid);
-	if(msg == NULL)
-	  Py_RETURN_NONE;
+	if(!msg) Py_RETURN_NONE;
 
 	PyObject * o = fetion_msg_pydict(msg);
 	fx_destroy_msg(msg);
 
-	if(o)
-	  return o;
-	else
-	  Py_RETURN_NONE;
+	return Py_BuildValue("O", o);
 }
 
 /* Send SMS Functions */
