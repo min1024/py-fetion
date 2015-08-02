@@ -1,0 +1,1 @@
+PyFetion is a Python module for China Mobile Communication Corporation Fetion. It is based on Libfetion.
